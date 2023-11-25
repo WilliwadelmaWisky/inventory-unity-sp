@@ -1,0 +1,6 @@
+bin/
+Inventory/
+obj/
+
+*.csproj
+*.sln
