@@ -1,11 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using WWWisky.inventory.core.contracts;
+using WWWisky.inventory.core.items;
 
-namespace Inventory.src.core
+namespace WWWisky.inventory.core
 {
-    class Vendor
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Vendor
     {
+        private readonly Inventory _inventory;
 
+
+        public Vendor()
+        {
+            _inventory = new Inventory(2);
+        }
+
+
+        public void Buy(IVendible vendible, int amount)
+        {
+
+        }
+
+
+        public void Sell(IVendible vendible, int amount)
+        {
+
+        }
     }
 }

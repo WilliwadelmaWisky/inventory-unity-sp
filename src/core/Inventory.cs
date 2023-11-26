@@ -13,9 +13,9 @@ namespace WWWisky.inventory.core
 	{
 		public event Action<IItem, int> OnItemAdded;
 		public event Action<IItem, int> OnItemRemoved;
-		public event Action<InventorySlot, int> OnSlotUpdated;
+		public event Action<IInventorySlot, int> OnSlotUpdated;
 		
-		private InventorySlot[] _slots;
+		private IInventorySlot[] _slots;
 
 		public int SlotCount => _slots.Length;
 		
@@ -27,23 +27,23 @@ namespace WWWisky.inventory.core
 		public Inventory(int slotCount = 30)
 		{
 			slotCount = Math.Min(1, slotCount);
-			_slots = new InventorySlot[slotCount];
+			_slots = new IInventorySlot[slotCount];
 			for (int i = 0; i < slotCount; i++)
 				Set(i, CreateSlot());
 		}
 		
 		
-		public InventorySlot Get(int index) => _slots[index];
-		public bool IsEmpty(int index) => Get(index).IsEmpty();
-		protected void Set(int index, InventorySlot slot) => _slots[index] = slot;
-		protected virtual InventorySlot CreateSlot() => new InventorySlot();
+		public IInventorySlot Get(int index) => _slots[index];
+		public bool IsEmpty(int index) => Get(index).IsEmpty;
+		protected void Set(int index, IInventorySlot slot) => _slots[index] = slot;
+		protected virtual IInventorySlot CreateSlot() => new InventorySlot();
 
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="onLoop"></param>
-		public void ForEach(Action<InventorySlot, int> onLoop)
+		public void ForEach(Action<IInventorySlot, int> onLoop)
         {
 			for (int i = 0; i < SlotCount; i++)
 				onLoop(_slots[i], i);
@@ -54,13 +54,13 @@ namespace WWWisky.inventory.core
 		/// </summary>
 		/// <param name="slotCount"></param>
 		/// <returns></returns>
-		protected bool Resize(int slotCount)
+		public bool Resize(int slotCount)
         {
 			if (slotCount < 0 || slotCount == SlotCount)
 				return false;
 
-			InventorySlot[] oldSlots = _slots;
-			_slots = new InventorySlot[slotCount];
+			IInventorySlot[] oldSlots = _slots;
+			_slots = new IInventorySlot[slotCount];
 			for (int i = 0; i < Math.Min(slotCount, oldSlots.Length); i++)
 				Set(i, oldSlots[i]);
 
@@ -85,10 +85,10 @@ namespace WWWisky.inventory.core
 			int amountToAdd = amount;
 			for (int i = 0; i < SlotCount && amountToAdd > 0; i++)
 			{
-				AddItemResult result = AddItemToIndex(item, amountToAdd, i);
-				amountToAdd = result.Amount;
+				AddItemResult result = AddItem(item, amountToAdd, i);
+				amountToAdd -= result.Amount;
 
-				if (result.Success && amountToAdd >= amount)
+				if (!result.Success && amountToAdd >= amount)
 					return AddItemResult.Failure;
 			}
 				
@@ -103,12 +103,12 @@ namespace WWWisky.inventory.core
 		/// <param name="amount"></param>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		public AddItemResult AddItemToIndex(IItem item, int amount, int index)
+		public AddItemResult AddItem(IItem item, int amount, int index)
 		{
 			if (item == null || amount <= 0)
 				return AddItemResult.Failure;
 
-			InventorySlot slot = Get(index);
+			IInventorySlot slot = Get(index);
 			AddItemResult result = slot.Add(item, amount);
 
 			if (result.Success)
@@ -118,32 +118,50 @@ namespace WWWisky.inventory.core
 		}
 		
 		
-		public bool RemoveItem(IItem item, int amount, out int leftOver)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public RemoveItemResult RemoveItem(IItem item, int amount)
 		{
-			if (item != null && amount > 0)
-			{
-				int removeAmount = amount;
-				for (int i = 0; i < SlotCount && removeAmount > 0; i++)
-					RemoveItemFromIndex(item, removeAmount, i, out removeAmount);
+			if (item == null || amount <= 0)
+				return RemoveItemResult.Failure;
+
+			int amountToRemove = amount;
+			for (int i = 0; i < SlotCount && amountToRemove > 0; i++)
+            {
+			 	RemoveItemResult result = RemoveItem(item, amountToRemove, i);
+				amountToRemove -= result.Amount;
+
+				if (!result.Success && amountToRemove >= amount)
+					return RemoveItemResult.Failure;
+			}
 				
-				leftOver = removeAmount;
-				OnItemRemoved?.Invoke(item, amount - leftOver);
-				return removeAmount < amount;
-			}
-			
-			leftOver = amount;
-			return false;
+			OnItemRemoved?.Invoke(item, amount - amountToRemove);
+			return new RemoveItemResult(true, item, amount - amountToRemove);
 		}
-		public bool RemoveItemFromIndex(IItem item, int amount, int index, out int leftOver)
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="amount"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public RemoveItemResult RemoveItem(IItem item, int amount, int index)
 		{
-			if (item != null && amount > 0 && index >= 0 && index < SlotCount)
-			{
-				InventorySlot slot = _slots[index];
-				return slot.Remove(item, amount, out leftOver);
-			}
-			
-			leftOver = amount;
-			return false;
+			if (item == null || amount <= 0)
+				return RemoveItemResult.Failure;
+
+			IInventorySlot slot = Get(index);
+			RemoveItemResult result = slot.Remove(item, amount);
+
+			if (result.Success)
+				OnSlotUpdated?.Invoke(slot, index);
+
+			return result;
 		}
 
 
@@ -169,7 +187,7 @@ namespace WWWisky.inventory.core
 		/// 
 		/// </summary>
 		/// <param name="comparer"></param>
-		public void Sort(IComparer<InventorySlot> comparer)
+		public void Sort(IComparer<IInventorySlot> comparer)
         {
 			Array.Sort(_slots, comparer);
         }

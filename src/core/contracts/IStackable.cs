@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WWWisky.inventory.core.contracts
+﻿namespace WWWisky.inventory.core.contracts
 {
-    interface IStackable
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IStackable
     {
-
+        int StackSize { get; }
     }
 }

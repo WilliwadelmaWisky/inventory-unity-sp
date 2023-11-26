@@ -4,10 +4,10 @@ using WWWisky.inventory.core.contracts;
 
 namespace WWWisky.inventory.core
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class CraftingStation : ICraftingStation
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CraftingStation : ICraftingStation
 	{
 		public string ID { get; }
         public string Name { get; }
@@ -52,7 +52,7 @@ namespace WWWisky.inventory.core
 		/// </summary>
 		/// <param name="recipe"></param>
 		/// <returns></returns>
-		public bool AddRecipe(IRecipe recipe)
+		public bool Add(IRecipe recipe)
         {
 			if (recipe == null || Contains(recipe))
 				return false;

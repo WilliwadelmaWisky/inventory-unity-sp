@@ -7,6 +7,8 @@
     {
         string ID { get; }
         string Name { get; }
+        IItemType Type { get; }
+
         bool IsEqual(IItem other);
     }
 }

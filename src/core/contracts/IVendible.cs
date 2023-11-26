@@ -7,10 +7,8 @@ namespace WWWisky.inventory.core.contracts
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface ISlot<T>
+    public interface IVendible
     {
-        T Item { get; }
-        int Amount { get; }
+        float Cost { get; }
     }
 }
