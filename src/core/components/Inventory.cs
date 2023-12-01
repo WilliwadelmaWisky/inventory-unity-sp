@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using WWWisky.inventory.core.containers;
-using WWWisky.inventory.core.contracts;
-using WWWisky.inventory.core.events;
+using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core
+namespace WWWisky.inventory.core.components
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class Inventory
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Inventory : IInventory, ISortable<IInventorySlot>
 	{
 		public event Action<IItem, int> OnItemAdded;
 		public event Action<IItem, int> OnItemRemoved;
@@ -163,24 +162,6 @@ namespace WWWisky.inventory.core
 
 			return result;
 		}
-
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		public bool Use(int index)
-        {
-			if (IsEmpty(index))
-				return false;
-
-			IItem item = Get(index).Item;
-			if (item is IUseable useable)
-				return useable.Use(ItemUseEvent.Default);
-
-			return false;
-        }
 
 
 		/// <summary>

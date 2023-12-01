@@ -1,13 +1,13 @@
 using System;
 using WWWisky.inventory.core.containers;
-using WWWisky.inventory.core.contracts;
+using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core
+namespace WWWisky.inventory.core.components
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class InventorySlot : IInventorySlot
+    /// <summary>
+    /// 
+    /// </summary>
+    public class InventorySlot : IInventorySlot
 	{
 		public IItem Item { get; private set; }
 		public int Amount { get; private set; }

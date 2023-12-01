@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using WWWisky.inventory.core.contracts;
+using WWWisky.inventory.core.items;
 
 namespace WWWisky.inventory.unity.items
 {

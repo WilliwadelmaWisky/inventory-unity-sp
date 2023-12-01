@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using WWWisky.inventory.core.containers;
 using WWWisky.inventory.core.contracts;
+using WWWisky.inventory.core.items;
 
 namespace WWWisky.inventory.core.recipes
 {

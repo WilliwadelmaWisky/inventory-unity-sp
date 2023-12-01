@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using WWWisky.inventory.core.contracts;
 
-namespace WWWisky.inventory.core
+namespace WWWisky.inventory.core.components
 {
     /// <summary>
     /// 

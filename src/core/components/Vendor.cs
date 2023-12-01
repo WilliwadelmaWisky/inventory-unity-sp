@@ -1,7 +1,6 @@
-﻿using WWWisky.inventory.core.contracts;
-using WWWisky.inventory.core.items;
+﻿using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core
+namespace WWWisky.inventory.core.components
 {
     /// <summary>
     /// 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WWWisky.inventory.core.contracts
+namespace WWWisky.inventory.core.items
 {
     /// <summary>
     /// 

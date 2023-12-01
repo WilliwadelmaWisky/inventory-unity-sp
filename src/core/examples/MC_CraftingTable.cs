@@ -1,4 +1,5 @@
-﻿using WWWisky.inventory.core.recipes;
+﻿using WWWisky.inventory.core.components;
+using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.core.examples
 {

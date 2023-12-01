@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace WWWisky.inventory.core.recipes
+namespace WWWisky.inventory.core.components
 {
     /// <summary>
     /// 
