@@ -12,6 +12,9 @@ namespace WWWisky.inventory.core.components
         int Amount { get; }
         bool IsEmpty { get; }
 
+        bool IsAcceptable(IItem item);
+        int GetStackSize(IItem item);
+
         AddItemResult Add(IItem item, int amount);
         RemoveItemResult Remove(IItem item, int amount);
         RemoveItemResult Clear();

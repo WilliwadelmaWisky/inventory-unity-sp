@@ -16,15 +16,14 @@ namespace WWWisky.inventory.core.components
         }
 
 
-        public void Buy(IVendible vendible, int amount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vendible"></param>
+        public void Add(IVendible vendible)
         {
-
-        }
-
-
-        public void Sell(IVendible vendible, int amount)
-        {
-
+            if (vendible is IItem item)
+                _inventory.AddItem(item, 1);
         }
     }
 }

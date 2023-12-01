@@ -1,7 +1,7 @@
 ﻿using WWWisky.inventory.core.events;
 using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core.components
+namespace WWWisky.inventory.core.components.controls
 {
     /// <summary>
     /// 

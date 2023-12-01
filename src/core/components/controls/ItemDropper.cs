@@ -1,4 +1,4 @@
-﻿namespace WWWisky.inventory.core.components
+﻿namespace WWWisky.inventory.core.components.controls
 {
     /// <summary>
     /// 
