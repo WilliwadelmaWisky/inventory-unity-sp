@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WWWisky.inventory.core.contracts;
+using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.core.components
 {
@@ -9,7 +9,6 @@ namespace WWWisky.inventory.core.components
     /// </summary>
     public class CraftingStation : ICraftingStation
 	{
-		public string ID { get; }
         public string Name { get; }
 
 		private readonly List<IRecipe> _recipeList;
@@ -21,11 +20,9 @@ namespace WWWisky.inventory.core.components
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="id"></param>
 		/// <param name="name"></param>
-		public CraftingStation(string id, string name)
+		public CraftingStation(string name)
 		{
-			ID = id;
             Name = name;
 			_recipeList = new List<IRecipe>();
 			_recipeIDSet = new HashSet<string>();
@@ -33,7 +30,6 @@ namespace WWWisky.inventory.core.components
 
 
 		public bool Contains(IRecipe recipe) => _recipeIDSet.Contains(recipe.ID);
-		public virtual bool IsEqual(ICraftingStation other) => ID.Equals(other.ID);
 
 
 		/// <summary>
@@ -82,12 +78,30 @@ namespace WWWisky.inventory.core.components
         }
 		
 		
-		public void Craft(IRecipe recipe, int amount)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="recipe"></param>
+		/// <param name="amount"></param>
+		/// <param name="crafter"></param>
+		public virtual void Craft(IRecipe recipe, int amount, ICrafter<IRecipe> crafter)
 		{
-			if (recipe == null || amount <= 0)
+			if (!crafter.CanCraft(recipe, amount) || !Contains(recipe))
 				return;
-			
 
+			crafter.Craft(recipe, amount);
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="amount"></param>
+		/// <param name="crafter"></param>
+		public void Craft(int index, int amount, ICrafter<IRecipe> crafter)
+        {
+			IRecipe recipe = _recipeList[index];
+			Craft(recipe, amount, crafter);
+        }
     }
 }

@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using WWWisky.inventory.core.containers;
 
-namespace WWWisky.inventory.core.contracts
+namespace WWWisky.inventory.core.recipes
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IRecipe
     {
         string ID { get; }
         string Name { get; }
+
+        void Add(IRequirement requirement);
+        void ForEach(Action<IRequirement, int> onLoop);
         CraftResult Craft();
     }
 }

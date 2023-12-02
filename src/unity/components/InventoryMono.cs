@@ -12,6 +12,8 @@ namespace WWWisky.inventory.unity.components
         [SerializeField, Min(2)] private int SlotCount = 30;
 
         private Inventory _inventory;
+        private CraftingStation _craftingStation;
+        private Equipment _equipment;
         private ItemUser _itemUser;
         private ItemDropper _itemDropper;
         private ItemTransfer _itemTransfer;
@@ -23,6 +25,9 @@ namespace WWWisky.inventory.unity.components
         void Awake()
         {
             _inventory = new Inventory(SlotCount);
+            _craftingStation = new CraftingStation("Inventory");
+            _equipment = new Equipment();
+
             _itemUser = new ItemUser(this.gameObject, _inventory);
             _itemDropper = new ItemDropper(this.gameObject, _inventory);
             _itemTransfer = new ItemTransfer(_inventory);

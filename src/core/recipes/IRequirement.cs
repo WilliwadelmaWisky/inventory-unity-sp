@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WWWisky.inventory.core.contracts
+﻿namespace WWWisky.inventory.core.recipes
 {
     /// <summary>
     /// 

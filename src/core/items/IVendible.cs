@@ -5,6 +5,7 @@
     /// </summary>
     public interface IVendible
     {
+        string ID { get; }
         float Cost { get; }
     }
 }

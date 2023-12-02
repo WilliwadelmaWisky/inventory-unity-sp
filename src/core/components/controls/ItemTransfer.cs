@@ -55,7 +55,9 @@ namespace WWWisky.inventory.core.components.controls
                 return false;
 
             IInventorySlot slot = _inventory.Get(index);
-            if (target.IsEmpty(targetIndex))
+            IInventorySlot targetSlot = target.Get(targetIndex);
+
+            if (target.IsEmpty(targetIndex) || slot.Item.IsEqual(targetSlot.Item))
             {
                 AddItemResult result = target.AddItem(slot.Item, slot.Amount, index);
                 if (!result.Success)
@@ -65,7 +67,6 @@ namespace WWWisky.inventory.core.components.controls
                 return true;
             }
 
-            IInventorySlot targetSlot = target.Get(targetIndex);
             if (!slot.IsAcceptable(targetSlot.Item) || !targetSlot.IsAcceptable(slot.Item))
                 return false;
             if (slot.Amount > targetSlot.GetStackSize(slot.Item) || targetSlot.Amount > slot.GetStackSize(targetSlot.Item))

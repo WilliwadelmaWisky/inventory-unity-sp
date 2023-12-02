@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using WWWisky.inventory.core.containers;
-using WWWisky.inventory.core.contracts;
 using WWWisky.inventory.core.items;
 
 namespace WWWisky.inventory.core.recipes
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class Recipe : IRecipe
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Recipe : IRecipe
 	{
 		public string ID { get; }
 		public string Name { get; }
@@ -39,15 +38,24 @@ namespace WWWisky.inventory.core.recipes
 		/// 
 		/// </summary>
 		/// <param name="requirement"></param>
-		/// <returns></returns>
-		public bool AddRequirement(IRequirement requirement)
+		public void Add(IRequirement requirement)
         {
 			if (requirement == null || _requirementIDSet.Contains(requirement.ID))
-				return false;
+				return;
 
 			_requirementList.Add(requirement);
 			_requirementIDSet.Add(requirement.ID);
-			return true;
+        }
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="onLoop"></param>
+		public void ForEach(Action<IRequirement, int> onLoop)
+        {
+			for (int i = 0; i < _requirementList.Count; i++)
+				onLoop(_requirementList[i], i);
         }
 
 

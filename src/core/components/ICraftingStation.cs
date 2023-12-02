@@ -1,13 +1,14 @@
-﻿namespace WWWisky.inventory.core.components
+﻿using WWWisky.inventory.core.recipes;
+
+namespace WWWisky.inventory.core.components
 {
     /// <summary>
     /// 
     /// </summary>
     public interface ICraftingStation
     {
-        string ID { get; }
         string Name { get; }
 
-        bool IsEqual(ICraftingStation other);
+        void Craft(IRecipe recipe, int amount, ICrafter<IRecipe> crafter);
     }
 }
