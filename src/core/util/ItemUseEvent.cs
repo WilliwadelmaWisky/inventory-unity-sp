@@ -1,6 +1,6 @@
 ﻿using WWWisky.inventory.core.components;
 
-namespace WWWisky.inventory.core.events
+namespace WWWisky.inventory.core.util
 {
     public class ItemUseEvent
     {

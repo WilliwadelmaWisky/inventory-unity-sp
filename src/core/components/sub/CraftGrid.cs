@@ -7,8 +7,6 @@ namespace WWWisky.inventory.core.components
     /// </summary>
     public class CraftGrid
     {
-
-
         private readonly InventorySlot[,] _slotGrid;
 
 

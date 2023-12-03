@@ -1,6 +1,6 @@
 ﻿using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core.containers
+namespace WWWisky.inventory.core.util
 {
     /// <summary>
     /// 

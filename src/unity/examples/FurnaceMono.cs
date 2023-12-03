@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.containers;
+using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.recipes;
 using WWWisky.inventory.unity.recipes;
+using WWWisky.inventory.core.components.sub;
+using WWWisky.inventory.core.components.controls;
 
 namespace WWWisky.inventory.unity.examples
 {
@@ -14,11 +16,13 @@ namespace WWWisky.inventory.unity.examples
     {
         [SerializeField] private RecipeSO[] Recipes;
 
+        public int Tier { get; private set; }
+
         private CraftingStation _craftingStation;
         private CraftQueue _craftQueue;
         private Inventory _inventory;
-
-        private InventorySlot _fuelSlot;
+        private BurnableSlot _fuelSlot;
+        private SlotTicker _slotTicker;
 
         
         /// <summary>
@@ -27,8 +31,9 @@ namespace WWWisky.inventory.unity.examples
         void Awake()
         {
             _craftingStation = new CraftingStation("Furnace");
-            _craftQueue = new CraftQueue();
+            _craftQueue = new CraftQueue(OnRecipeCrafted);
             _inventory = new Inventory();
+            Tier = 1;
 
             foreach (RecipeSO recipeSO in Recipes)
             {
@@ -36,7 +41,8 @@ namespace WWWisky.inventory.unity.examples
                 _craftingStation.Add(recipe);
             }
 
-            _fuelSlot = new InventorySlot();
+            _fuelSlot = new BurnableSlot();
+            _slotTicker = new SlotTicker();
         }
 
         /// <summary>
@@ -46,6 +52,10 @@ namespace WWWisky.inventory.unity.examples
         {
             if (_fuelSlot.IsEmpty)
                 return;
+
+            double deltaTime = Time.deltaTime;
+            _slotTicker.Tick(deltaTime, _fuelSlot);
+            _craftQueue.Tick(deltaTime);
         }
 
 
@@ -60,7 +70,11 @@ namespace WWWisky.inventory.unity.examples
             bool canCraft = true;
             recipe.ForEach((requirement, index) =>
             {
-                
+                if (!requirement.OK(this))
+                {
+                    canCraft = false;
+                    return;
+                }
             });
 
             return canCraft;
@@ -73,6 +87,20 @@ namespace WWWisky.inventory.unity.examples
         /// <param name="amount"></param>
         public void Craft(IRecipe recipe, int amount)
         {
+            _craftQueue.Enqueue(recipe, amount);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <param name="amount"></param>
+        private void OnRecipeCrafted(IRecipe recipe, int amount)
+        {
+            if (!CanCraft(recipe, amount))
+                return;
+
             CraftResult result = recipe.Craft();
             if (!result.Success)
                 return;
@@ -82,7 +110,7 @@ namespace WWWisky.inventory.unity.examples
                 _inventory.AddItem(item, amount * result.Quantity);
                 recipe.ForEach((requirement, index) =>
                 {
-                    //_inventory.RemoveItem()
+                    requirement.Use(this);
                 });
             }
         }

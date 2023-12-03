@@ -1,13 +1,13 @@
 ﻿using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core.containers
+namespace WWWisky.inventory.core.util
 {
     /// <summary>
     /// 
     /// </summary>
-    public struct AddItemResult
+    public struct RemoveItemResult
     {
-        public static AddItemResult Failure { get; } = new AddItemResult(false, null, 0);
+        public static RemoveItemResult Failure { get; } = new RemoveItemResult(false, null, 0);
 
         public bool Success { get; }
         public IItem Item { get; }
@@ -20,7 +20,7 @@ namespace WWWisky.inventory.core.containers
         /// <param name="success"></param>
         /// <param name="item"></param>
         /// <param name="amount"></param>
-        public AddItemResult(bool success, IItem item, int amount)
+        public RemoveItemResult(bool success, IItem item, int amount)
         {
             Success = success;
             Item = item;

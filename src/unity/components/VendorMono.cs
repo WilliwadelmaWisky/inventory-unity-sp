@@ -29,5 +29,17 @@ namespace WWWisky.inventory.unity.components
                     _vendor.Add(vendible);
             }
         }
+
+
+        public void Buy()
+        {
+
+        }
+
+
+        public void Sell()
+        {
+
+        }
     }
 }

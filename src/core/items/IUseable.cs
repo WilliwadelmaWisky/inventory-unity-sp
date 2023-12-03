@@ -1,4 +1,4 @@
-﻿using WWWisky.inventory.core.events;
+﻿using WWWisky.inventory.core.util;
 
 namespace WWWisky.inventory.core.items
 {

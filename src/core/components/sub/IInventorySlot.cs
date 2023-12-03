@@ -1,7 +1,7 @@
-﻿using WWWisky.inventory.core.containers;
+﻿using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.core.components
+namespace WWWisky.inventory.core.components.sub
 {
     /// <summary>
     /// 

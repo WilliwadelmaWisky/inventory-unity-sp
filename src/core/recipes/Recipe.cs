@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WWWisky.inventory.core.containers;
+using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
 
 namespace WWWisky.inventory.core.recipes
