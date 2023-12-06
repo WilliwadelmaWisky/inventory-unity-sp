@@ -1,6 +1,6 @@
 bin/
-Inventory/
 obj/
+.vs/
 
 *.csproj
 *.sln
