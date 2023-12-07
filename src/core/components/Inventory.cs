@@ -9,13 +9,11 @@ namespace WWWisky.inventory.core.components
     /// <summary>
     /// 
     /// </summary>
-    public class Inventory : IInventory, ISortable<IInventorySlot>
+    public class Inventory : IInventory, ISortable<ISlot>
 	{
-		public event Action<IItem, int> OnItemAdded;
-		public event Action<IItem, int> OnItemRemoved;
-		public event Action<IInventorySlot, int> OnSlotUpdated;
-		
-		private IInventorySlot[] _slots;
+		public event Action OnResized;
+
+		private ISlot[] _slots;
 
 		public int SlotCount => _slots.Length;
 		
@@ -27,23 +25,23 @@ namespace WWWisky.inventory.core.components
 		public Inventory(int slotCount = 30)
 		{
 			slotCount = Math.Min(1, slotCount);
-			_slots = new IInventorySlot[slotCount];
+			_slots = new ISlot[slotCount];
 			for (int i = 0; i < slotCount; i++)
 				Set(i, CreateSlot());
 		}
 		
 		
-		public IInventorySlot Get(int index) => _slots[index];
+		public ISlot Get(int index) => _slots[index];
 		public bool IsEmpty(int index) => Get(index).IsEmpty;
-		protected void Set(int index, IInventorySlot slot) => _slots[index] = slot;
-		protected virtual IInventorySlot CreateSlot() => new InventorySlot();
+		protected void Set(int index, ISlot slot) => _slots[index] = slot;
+		protected virtual ISlot CreateSlot() => new Slot();
 
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="onLoop"></param>
-		public void ForEach(Action<IInventorySlot, int> onLoop)
+		public void ForEach(Action<ISlot, int> onLoop)
         {
 			for (int i = 0; i < SlotCount; i++)
 				onLoop(_slots[i], i);
@@ -59,14 +57,15 @@ namespace WWWisky.inventory.core.components
 			if (slotCount < 0 || slotCount == SlotCount)
 				return false;
 
-			IInventorySlot[] oldSlots = _slots;
-			_slots = new IInventorySlot[slotCount];
+			ISlot[] oldSlots = _slots;
+			_slots = new ISlot[slotCount];
 			for (int i = 0; i < Math.Min(slotCount, oldSlots.Length); i++)
 				Set(i, oldSlots[i]);
 
 			for (int i = oldSlots.Length; i < SlotCount; i++)
 				Set(i, CreateSlot());
 
+			OnResized?.Invoke();
 			return true;
         }
 		
@@ -91,8 +90,7 @@ namespace WWWisky.inventory.core.components
 				if (!result.Success && amountToAdd >= amount)
 					return AddItemResult.Failure;
 			}
-				
-			OnItemAdded?.Invoke(item, amount - amountToAdd);
+			
 			return new AddItemResult(true, item, amount - amountToAdd);
 		}
 
@@ -108,12 +106,8 @@ namespace WWWisky.inventory.core.components
 			if (item == null || amount <= 0)
 				return AddItemResult.Failure;
 
-			IInventorySlot slot = Get(index);
+			ISlot slot = Get(index);
 			AddItemResult result = slot.Add(item, amount);
-
-			if (result.Success)
-				OnSlotUpdated?.Invoke(slot, index);
-
 			return result;
 		}
 		
@@ -139,7 +133,6 @@ namespace WWWisky.inventory.core.components
 					return RemoveItemResult.Failure;
 			}
 				
-			OnItemRemoved?.Invoke(item, amount - amountToRemove);
 			return new RemoveItemResult(true, item, amount - amountToRemove);
 		}
 
@@ -155,12 +148,8 @@ namespace WWWisky.inventory.core.components
 			if (item == null || amount <= 0)
 				return RemoveItemResult.Failure;
 
-			IInventorySlot slot = Get(index);
+			ISlot slot = Get(index);
 			RemoveItemResult result = slot.Remove(item, amount);
-
-			if (result.Success)
-				OnSlotUpdated?.Invoke(slot, index);
-
 			return result;
 		}
 
@@ -169,7 +158,7 @@ namespace WWWisky.inventory.core.components
 		/// 
 		/// </summary>
 		/// <param name="comparer"></param>
-		public void Sort(IComparer<IInventorySlot> comparer)
+		public void Sort(IComparer<ISlot> comparer)
         {
 			Array.Sort(_slots, comparer);
         }

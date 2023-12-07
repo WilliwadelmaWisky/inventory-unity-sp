@@ -12,8 +12,8 @@ namespace WWWisky.inventory.unity.components
     {
         [SerializeField, Min(2)] private int SlotCount = 30;
 
-        private Inventory _inventory;
-        private CraftingStation _craftingStation;
+        private IInventory _inventory;
+        private ICraftingStation _craftingStation;
         private Equipment _equipment;
         private ItemUser _itemUser;
         private ItemDropper _itemDropper;
@@ -35,14 +35,38 @@ namespace WWWisky.inventory.unity.components
         }
 
 
-        public bool CanCraft(IRecipe item, int amount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool HasResources(IRecipe recipe, int amount)
         {
-            throw new System.NotImplementedException();
+            bool canCraft = true;
+            recipe.ForEach((req, index) =>
+            {
+                if (!req.OK(this))
+                {
+                    canCraft = false;
+                    return;
+                }
+            });
+
+            return canCraft;
         }
 
-        public void Craft(IRecipe item, int amount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <param name="amount"></param>
+        public void UseResources(IRecipe recipe, int amount)
         {
-            throw new System.NotImplementedException();
+            recipe.ForEach((req, index) =>
+            {
+                req.Use(this);
+            });
         }
     }
 }

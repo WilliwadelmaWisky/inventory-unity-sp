@@ -86,10 +86,10 @@ namespace WWWisky.inventory.core.components
 		/// <param name="crafter"></param>
 		public virtual void Craft(IRecipe recipe, int amount, ICrafter<IRecipe> crafter)
 		{
-			if (!crafter.CanCraft(recipe, amount) || !Contains(recipe))
+			if (!crafter.HasResources(recipe, amount) || !Contains(recipe))
 				return;
 
-			crafter.Craft(recipe, amount);
+			crafter.UseResources(recipe, amount);
 		}
 
 		/// <summary>

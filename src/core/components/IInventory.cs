@@ -13,8 +13,8 @@ namespace WWWisky.inventory.core.components
         int SlotCount { get; }
 
         bool IsEmpty(int index);
-        IInventorySlot Get(int index);
-        void ForEach(Action<IInventorySlot, int> onLoop);
+        ISlot Get(int index);
+        void ForEach(Action<ISlot, int> onLoop);
 
         AddItemResult AddItem(IItem item, int amount);
         AddItemResult AddItem(IItem item, int amount, int index);

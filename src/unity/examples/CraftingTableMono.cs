@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components;
+using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.unity.examples
@@ -28,20 +29,35 @@ namespace WWWisky.inventory.unity.examples
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="recipe"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool CanCraft(IRecipe item, int amount)
+        public bool HasResources(IRecipe recipe, int amount)
         {
+            if (recipe is GridRecipe gridRecipe)
+            {
+                bool ok = true;
+                gridRecipe.ForEach((req, x, y) =>
+                {
+                    if (!req.OK(this))
+                    {
+                        ok = false;
+                        return;
+                    }
+                });
+
+                return ok;
+            }
+
             return false;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="recipe"></param>
         /// <param name="amount"></param>
-        public void Craft(IRecipe item, int amount)
+        public void UseResources(IRecipe recipe, int amount)
         {
             
         }

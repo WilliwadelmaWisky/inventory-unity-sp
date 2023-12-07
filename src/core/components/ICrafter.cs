@@ -5,7 +5,7 @@
     /// </summary>
     public interface ICrafter<T>
     {
-        bool CanCraft(T item, int amount);
-        void Craft(T item, int amount);
+        bool HasResources(T recipe, int amount);
+        void UseResources(T recipe, int amount);
     }
 }

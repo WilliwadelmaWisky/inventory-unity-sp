@@ -5,7 +5,7 @@ namespace WWWisky.inventory.core.components.sub
     /// <summary>
     /// 
     /// </summary>
-    public class EquipmentSlot : InventorySlot
+    public class EquipmentSlot : Slot
     {
         private readonly IEquippableType _equippableType;
 

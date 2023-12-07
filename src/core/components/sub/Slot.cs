@@ -7,7 +7,7 @@ namespace WWWisky.inventory.core.components.sub
     /// <summary>
     /// 
     /// </summary>
-    public class InventorySlot : IInventorySlot
+    public class Slot : ISlot
 	{
 		public IItem Item { get; private set; }
 		public int Amount { get; private set; }
@@ -17,7 +17,7 @@ namespace WWWisky.inventory.core.components.sub
 		/// <summary>
 		/// 
 		/// </summary>
-		public InventorySlot()
+		public Slot()
 		{
 			Item = null;
 			Amount = 0;

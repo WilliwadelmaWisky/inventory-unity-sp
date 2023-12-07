@@ -15,7 +15,7 @@ namespace WWWisky.inventory.core.components.controls
         /// </summary>
         /// <param name="deltaTime"></param>
         /// <param name="slot"></param>
-        public void Tick(double deltaTime, IInventorySlot slot)
+        public void Tick(double deltaTime, ISlot slot)
         {
             if (slot.IsEmpty)
                 return;

@@ -65,7 +65,7 @@ namespace WWWisky.inventory.unity.examples
         /// <param name="recipe"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool CanCraft(IRecipe recipe, int amount)
+        public bool HasResources(IRecipe recipe, int amount)
         {
             bool canCraft = true;
             recipe.ForEach((requirement, index) =>
@@ -85,7 +85,7 @@ namespace WWWisky.inventory.unity.examples
         /// </summary>
         /// <param name="recipe"></param>
         /// <param name="amount"></param>
-        public void Craft(IRecipe recipe, int amount)
+        public void UseResources(IRecipe recipe, int amount)
         {
             _craftQueue.Enqueue(recipe, amount);
         }
@@ -98,7 +98,7 @@ namespace WWWisky.inventory.unity.examples
         /// <param name="amount"></param>
         private void OnRecipeCrafted(IRecipe recipe, int amount)
         {
-            if (!CanCraft(recipe, amount))
+            if (!HasResources(recipe, amount))
                 return;
 
             CraftResult result = recipe.Craft();

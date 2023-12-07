@@ -6,7 +6,7 @@ namespace WWWisky.inventory.core.components.sub
     /// <summary>
     /// 
     /// </summary>
-    public interface IInventorySlot
+    public interface ISlot
     {
         IItem Item { get; }
         int Amount { get; }

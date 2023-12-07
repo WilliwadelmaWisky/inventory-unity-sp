@@ -5,7 +5,7 @@ namespace WWWisky.inventory.core.components.sub
     /// <summary>
     /// 
     /// </summary>
-    public class BurnableSlot : InventorySlot
+    public class BurnableSlot : Slot
     {
         /// <summary>
         /// 
