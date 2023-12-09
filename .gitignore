@@ -4,4 +4,4 @@ obj/
 
 *.csproj
 *.sln
-*.cs.meta
+*.meta
