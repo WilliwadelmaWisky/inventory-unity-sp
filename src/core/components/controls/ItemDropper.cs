@@ -1,4 +1,6 @@
-﻿namespace WWWisky.inventory.core.components.controls
+﻿using WWWisky.inventory.core.components.sub;
+
+namespace WWWisky.inventory.core.components.controls
 {
     /// <summary>
     /// 
@@ -30,7 +32,7 @@
             if (_inventory.IsEmpty(index))
                 return;
 
-            IInventorySlot slot = _inventory.Get(index);
+            ISlot slot = _inventory.Get(index);
             slot.Clear();
         }
     }

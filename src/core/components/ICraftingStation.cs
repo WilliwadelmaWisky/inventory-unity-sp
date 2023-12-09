@@ -1,4 +1,5 @@
-﻿using WWWisky.inventory.core.recipes;
+﻿using System;
+using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.core.components
 {
@@ -9,6 +10,7 @@ namespace WWWisky.inventory.core.components
     {
         string Name { get; }
 
+        void ForEach(Action<IRecipe, int> onLoop);
         void Craft(IRecipe recipe, int amount, ICrafter<IRecipe> crafter);
     }
 }

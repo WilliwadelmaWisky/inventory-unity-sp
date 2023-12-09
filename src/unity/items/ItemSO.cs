@@ -8,17 +8,28 @@ namespace WWWisky.inventory.unity.items
     /// </summary>
     public abstract class ItemSO : ScriptableObject
     {
+        [SerializeField] private string ID;
+        [SerializeField] private string Name;
+        [SerializeField] private Sprite Icon;
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public abstract IItem Create();
+        public IItem Create()
+        {
+            IconRegistry.Current.Register(ID, Icon);
+            return OnCreate(ID, Name);
+        }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="registry"></param>
-        public abstract void RegisterIcon(IconRegistry registry);
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected abstract IItem OnCreate(string id, string name);
     }
 }

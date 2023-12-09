@@ -6,46 +6,58 @@ namespace WWWisky.inventory.unity.items
     /// <summary>
     /// 
     /// </summary>
-    public class IconRegistry
+    public sealed class IconRegistry : MonoBehaviour
     {
-        private readonly Dictionary<string, Sprite> _iconDictionary;
+        [SerializeField] private Sprite Default;
+
+        internal static IconRegistry Current { get; private set; }
+        private Dictionary<string, Sprite> _iconDictionary;
 
 
         /// <summary>
         /// 
         /// </summary>
-        public IconRegistry()
+        void Awake()
         {
+            if (Current != null)
+            {
+                Debug.LogWarning("[Debug] Found duplicate of IconRegistry!!!");
+                Destroy(this);
+                return;
+            }
+
+            Current = this;
             _iconDictionary = new Dictionary<string, Sprite>();
+            DontDestroyOnLoad(gameObject);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public Sprite Get(string id)
+        public Sprite Get(string key)
         {
-            if (string.IsNullOrEmpty(id) || !_iconDictionary.ContainsKey(id))
-                return null;
+            if (string.IsNullOrEmpty(key) || !_iconDictionary.ContainsKey(key))
+                return Default;
 
-            return _iconDictionary[id];
+            return _iconDictionary[key];
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="key"></param>
         /// <param name="icon"></param>
         /// <returns></returns>
-        public bool Register(string id, Sprite icon)
+        public bool Register(string key, Sprite icon)
         {
-            if (string.IsNullOrEmpty(id) || icon == null || _iconDictionary.ContainsKey(id))
+            if (string.IsNullOrEmpty(key) || icon == null || _iconDictionary.ContainsKey(key))
                 return false;
 
-            _iconDictionary.Add(id, icon);
+            _iconDictionary.Add(key, icon);
             return true;
         }
     }

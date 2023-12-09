@@ -1,4 +1,5 @@
-﻿using WWWisky.inventory.core.util;
+﻿using WWWisky.inventory.core.components.sub;
+using WWWisky.inventory.core.util;
 
 namespace WWWisky.inventory.core.components.controls
 {
@@ -31,7 +32,7 @@ namespace WWWisky.inventory.core.components.controls
             if (_inventory.IsEmpty(index))
                 return false;
 
-            IInventorySlot slot = _inventory.Get(index);
+            ISlot slot = _inventory.Get(index);
             AddItemResult result = target.AddItem(slot.Item, slot.Amount);
 
             if (!result.Success)
@@ -54,8 +55,8 @@ namespace WWWisky.inventory.core.components.controls
             if (_inventory.IsEmpty(index))
                 return false;
 
-            IInventorySlot slot = _inventory.Get(index);
-            IInventorySlot targetSlot = target.Get(targetIndex);
+            ISlot slot = _inventory.Get(index);
+            ISlot targetSlot = target.Get(targetIndex);
 
             if (target.IsEmpty(targetIndex) || slot.Item.IsEqual(targetSlot.Item))
             {

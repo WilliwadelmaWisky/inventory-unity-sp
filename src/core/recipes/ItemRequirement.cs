@@ -18,14 +18,15 @@ namespace WWWisky.inventory.core.recipes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="item"></param>
         /// <param name="amount"></param>
-        public ItemRequirement(string id, IItem item, int amount)
+        public ItemRequirement(IItem item, int amount)
         {
-            ID = id;
             _item = item;
             _amount = amount;
+
+            ID = _item.ID;
+            Name = $"{_amount} {item.Name}s";
         }
 
 

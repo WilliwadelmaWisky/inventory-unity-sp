@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.contracts;
+using WWWisky.inventory.core.recipes;
 using WWWisky.inventory.unity.recipes;
 
 namespace WWWisky.inventory.unity.components
@@ -22,7 +22,7 @@ namespace WWWisky.inventory.unity.components
         /// </summary>
         void Awake()
         {
-            _craftingStation = new CraftingStation(ID, Name);
+            _craftingStation = new CraftingStation(Name);
 
             foreach (RecipeSO recipeSO in Recipes)
             {

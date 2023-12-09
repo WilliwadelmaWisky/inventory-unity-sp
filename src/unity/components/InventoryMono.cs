@@ -2,6 +2,7 @@
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.controls;
 using WWWisky.inventory.core.recipes;
+using WWWisky.inventory.unity.recipes;
 
 namespace WWWisky.inventory.unity.components
 {
@@ -11,9 +12,10 @@ namespace WWWisky.inventory.unity.components
     public class InventoryMono : MonoBehaviour, ICrafter<IRecipe>
     {
         [SerializeField, Min(2)] private int SlotCount = 30;
+        [SerializeField] private RecipeSO[] Recipes;
 
         private IInventory _inventory;
-        private ICraftingStation _craftingStation;
+        private CraftingStation _craftingStation;
         private Equipment _equipment;
         private ItemUser _itemUser;
         private ItemDropper _itemDropper;
@@ -32,7 +34,17 @@ namespace WWWisky.inventory.unity.components
             _itemUser = new ItemUser(this.gameObject, _inventory);
             _itemDropper = new ItemDropper(this.gameObject, _inventory);
             _itemTransfer = new ItemTransfer(_inventory);
+
+            foreach (RecipeSO recipeSO in Recipes)
+            {
+                IRecipe recipe = recipeSO.Create();
+                _craftingStation.Add(recipe);
+            }
         }
+
+
+        public IInventory GetInventory() => _inventory;
+        public ICraftingStation GetCraftingStation() => _craftingStation;
 
 
         /// <summary>

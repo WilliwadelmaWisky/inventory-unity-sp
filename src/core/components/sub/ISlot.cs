@@ -1,5 +1,6 @@
 ﻿using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
+using System;
 
 namespace WWWisky.inventory.core.components.sub
 {
@@ -8,6 +9,8 @@ namespace WWWisky.inventory.core.components.sub
     /// </summary>
     public interface ISlot
     {
+        event Action OnUpdated;
+
         IItem Item { get; }
         int Amount { get; }
         bool IsEmpty { get; }

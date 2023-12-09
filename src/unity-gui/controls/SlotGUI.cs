@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components.sub;
 
-namespace WWWisky.inventory.unity.gui
+namespace WWWisky.inventory.unity.gui.controls
 {
     /// <summary>
     /// 
     /// </summary>
-    public abstract class SlotGUI : MonoBehaviour, ISlotGUI
+    public abstract class SlotGUI : MonoBehaviour, IElementGUI
     {
         public ISlot Slot { get; private set; }
 
@@ -15,9 +15,14 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         /// <param name="slot"></param>
-        public virtual void Assign(ISlot slot)
+        public virtual void Assign(object data)
         {
+            if (!(data is ISlot slot))
+                return;
+
             Slot = slot;
+            Slot.OnUpdated += OnSlotUpdated;
+            OnSlotUpdated();
         }
 
 
@@ -26,6 +31,10 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         public virtual void Clear()
         {
+            if (Slot == null)
+                return;
+
+            Slot.OnUpdated -= OnSlotUpdated;
             Slot = null;
         }
 
@@ -38,5 +47,11 @@ namespace WWWisky.inventory.unity.gui
         {
             return Instantiate(this);
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected abstract void OnSlotUpdated();
     }
 }

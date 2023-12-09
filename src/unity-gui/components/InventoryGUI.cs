@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 using WWWisky.inventory.core.components;
+using WWWisky.inventory.unity.gui.controls;
 
-namespace WWWisky.inventory.unity.gui
+namespace WWWisky.inventory.unity.gui.components
 {
     /// <summary>
     /// 
@@ -10,10 +11,10 @@ namespace WWWisky.inventory.unity.gui
     public class InventoryGUI : MonoBehaviour
     {
         [SerializeField] private SlotGUI SlotPrefab;
-        [SerializeField] private SlotListGUI SlotList;
+        [SerializeField] private ListGUI SlotList;
 
         private IInventory _inventory;
-        private IObjectPool<ISlotGUI> _slotPool;
+        private IObjectPool<IElementGUI> _slotPool;
 
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         void Awake()
         {
-            _slotPool = new ObjectPool<ISlotGUI>(() => (ISlotGUI)SlotPrefab.Clone());
+            _slotPool = new ObjectPool<IElementGUI>(() => (IElementGUI)SlotPrefab.Clone());
         }
 
 
@@ -45,8 +46,9 @@ namespace WWWisky.inventory.unity.gui
             SlotList.Clear().ForEach(slotGUI => _slotPool.Release(slotGUI));
             _inventory.ForEach((slot, index) =>
             {
-                ISlotGUI slotGUI = _slotPool.Get();
-                SlotList.Add(slot, slotGUI);
+                IElementGUI elementGUI = _slotPool.Get();
+                SlotList.Add(slot, elementGUI);
+                (elementGUI as MonoBehaviour).transform.SetSiblingIndex(index);
             });
         }
     }

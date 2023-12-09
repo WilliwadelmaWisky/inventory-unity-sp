@@ -24,7 +24,7 @@ namespace WWWisky.inventory.core.components
 		/// <param name="slotCount"></param>
 		public Inventory(int slotCount = 30)
 		{
-			slotCount = Math.Min(1, slotCount);
+			slotCount = Math.Max(1, slotCount);
 			_slots = new ISlot[slotCount];
 			for (int i = 0; i < slotCount; i++)
 				Set(i, CreateSlot());
@@ -86,12 +86,9 @@ namespace WWWisky.inventory.core.components
 			{
 				AddItemResult result = AddItem(item, amountToAdd, i);
 				amountToAdd -= result.Amount;
-
-				if (!result.Success && amountToAdd >= amount)
-					return AddItemResult.Failure;
 			}
 			
-			return new AddItemResult(true, item, amount - amountToAdd);
+			return new AddItemResult(amountToAdd < amount, item, amount - amountToAdd);
 		}
 
 		/// <summary>
@@ -128,12 +125,9 @@ namespace WWWisky.inventory.core.components
             {
 			 	RemoveItemResult result = RemoveItem(item, amountToRemove, i);
 				amountToRemove -= result.Amount;
-
-				if (!result.Success && amountToRemove >= amount)
-					return RemoveItemResult.Failure;
 			}
 				
-			return new RemoveItemResult(true, item, amount - amountToRemove);
+			return new RemoveItemResult(amountToRemove < amount, item, amount - amountToRemove);
 		}
 
 		/// <summary>

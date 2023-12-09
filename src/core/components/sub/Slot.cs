@@ -9,6 +9,8 @@ namespace WWWisky.inventory.core.components.sub
     /// </summary>
     public class Slot : ISlot
 	{
+        public event Action OnUpdated;
+
 		public IItem Item { get; private set; }
 		public int Amount { get; private set; }
 		public bool IsEmpty { get; private set; }
@@ -51,6 +53,7 @@ namespace WWWisky.inventory.core.components.sub
 				Item = item;
 				Amount = Math.Min(amount, GetStackSize(item));
 				IsEmpty = false;
+                OnUpdated?.Invoke();
 				return new AddItemResult(true, Item, Amount);
 			}
 
@@ -58,7 +61,8 @@ namespace WWWisky.inventory.core.components.sub
 			{
 				int addAmount = Math.Min(amount, GetStackSize(item) - Amount);
 				Amount += addAmount;
-				return new AddItemResult(true, Item, addAmount);
+                OnUpdated?.Invoke();
+                return new AddItemResult(true, Item, addAmount);
 			}
 
 			return AddItemResult.Failure;
@@ -85,7 +89,8 @@ namespace WWWisky.inventory.core.components.sub
 				Item = null;
 				IsEmpty = true;
 			}
-				
+
+            OnUpdated?.Invoke();
 			return result;
 		}
 		
