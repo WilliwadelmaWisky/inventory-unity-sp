@@ -9,7 +9,7 @@ namespace WWWisky.inventory.core.components
     /// <summary>
     /// 
     /// </summary>
-    public class Inventory : IInventory, ISortable<ISlot>
+    public class Inventory : IInventory
 	{
 		public event Action OnResized;
 

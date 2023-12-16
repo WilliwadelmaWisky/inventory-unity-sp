@@ -8,6 +8,7 @@ namespace WWWisky.inventory.core.components.sub
     public class EquipmentSlot : Slot
     {
         private readonly IEquippableType _equippableType;
+        private readonly ISlot[] _auqmentSlots;
 
 
         /// <summary>
@@ -17,6 +18,7 @@ namespace WWWisky.inventory.core.components.sub
         public EquipmentSlot(IEquippableType equippableType)
         {
             _equippableType = equippableType;
+            _auqmentSlots = new ISlot[0];
         }
 
 

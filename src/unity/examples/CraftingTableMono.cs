@@ -34,22 +34,13 @@ namespace WWWisky.inventory.unity.examples
         /// <returns></returns>
         public bool HasResources(IRecipe recipe, int amount)
         {
-            if (recipe is GridRecipe gridRecipe)
+            foreach (IRequirement requirement in recipe)
             {
-                bool ok = true;
-                gridRecipe.ForEach((req, x, y) =>
-                {
-                    if (!req.OK(this))
-                    {
-                        ok = false;
-                        return;
-                    }
-                });
-
-                return ok;
+                if (!requirement.OK(this))
+                    return false;
             }
 
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -59,7 +50,8 @@ namespace WWWisky.inventory.unity.examples
         /// <param name="amount"></param>
         public void UseResources(IRecipe recipe, int amount)
         {
-            
+            foreach (IRequirement requirement in recipe)
+                requirement.Use(this);
         }
     }
 }

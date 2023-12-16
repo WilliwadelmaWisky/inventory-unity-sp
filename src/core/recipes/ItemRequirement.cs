@@ -10,9 +10,8 @@ namespace WWWisky.inventory.core.recipes
     {
         public string ID { get; }
         public string Name { get; }
-
-        private readonly IItem _item;
-        private readonly int _amount;
+        public IItem Item { get; }
+        public int Amount { get; }
 
 
         /// <summary>
@@ -22,11 +21,11 @@ namespace WWWisky.inventory.core.recipes
         /// <param name="amount"></param>
         public ItemRequirement(IItem item, int amount)
         {
-            _item = item;
-            _amount = amount;
+            Item = item;
+            Amount = amount;
 
-            ID = _item.ID;
-            Name = $"{_amount} {item.Name}s";
+            ID = Item.ID;
+            Name = $"{Amount} {item.Name}s";
         }
 
 
@@ -39,11 +38,11 @@ namespace WWWisky.inventory.core.recipes
         {
             if (crafter is ISupportItemRequirements support)
             {
-                int neededAmount = _amount;
+                int neededAmount = Amount;
                 IInventory inventory = support.GetInventory();
                 for (int i = 0; i < inventory.SlotCount; i++)
                 {
-                    if (inventory.IsEmpty(i) || !inventory.Get(i).Item.IsEqual(_item))
+                    if (inventory.IsEmpty(i) || !inventory.Get(i).Item.IsEqual(Item))
                         continue;
 
                     neededAmount -= inventory.Get(i).Amount;
@@ -65,7 +64,7 @@ namespace WWWisky.inventory.core.recipes
             if (crafter is ISupportItemRequirements support)
             {
                 IInventory inventory = support.GetInventory();
-                inventory.RemoveItem(_item, _amount);
+                inventory.RemoveItem(Item, Amount);
             }
         }
     }

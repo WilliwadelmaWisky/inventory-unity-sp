@@ -31,8 +31,8 @@ namespace WWWisky.inventory.unity.components
             _craftingStation = new CraftingStation("Inventory");
             _equipment = new Equipment();
 
-            _itemUser = new ItemUser(this.gameObject, _inventory);
-            _itemDropper = new ItemDropper(this.gameObject, _inventory);
+            _itemUser = new ItemUser(gameObject, _inventory);
+            _itemDropper = new ItemDropper(gameObject, _inventory);
             _itemTransfer = new ItemTransfer(_inventory);
 
             foreach (RecipeSO recipeSO in Recipes)
@@ -55,17 +55,13 @@ namespace WWWisky.inventory.unity.components
         /// <returns></returns>
         public bool HasResources(IRecipe recipe, int amount)
         {
-            bool canCraft = true;
-            recipe.ForEach((req, index) =>
+            foreach (IRequirement requirement in recipe)
             {
-                if (!req.OK(this))
-                {
-                    canCraft = false;
-                    return;
-                }
-            });
+                if (!requirement.OK(this))
+                    return false;
+            }
 
-            return canCraft;
+            return true;
         }
 
         /// <summary>
@@ -75,10 +71,8 @@ namespace WWWisky.inventory.unity.components
         /// <param name="amount"></param>
         public void UseResources(IRecipe recipe, int amount)
         {
-            recipe.ForEach((req, index) =>
-            {
-                req.Use(this);
-            });
+            foreach (IRequirement requirement in recipe)
+                requirement.Use(this);
         }
     }
 }

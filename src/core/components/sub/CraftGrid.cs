@@ -15,6 +15,8 @@ namespace WWWisky.inventory.core.components.sub
         /// <param name="y"></param>
         public delegate void GridCallback(ISlot slot, int x, int y);
 
+        public int Width { get; }
+        public int Height { get; }
         private readonly ISlot[,] _slotGrid;
 
 
@@ -25,11 +27,11 @@ namespace WWWisky.inventory.core.components.sub
         /// <param name="height"></param>
         public CraftGrid(int width, int height)
         {
-            width = Math.Max(width, 1);
-            height = Math.Max(height, 1);
-            _slotGrid = new ISlot[width, height];
+            Width = Math.Max(width, 1);
+            Height = Math.Max(height, 1);
+            _slotGrid = new ISlot[Width, Height];
 
-            for (int i = 0; i < width * height; i++)
+            for (int i = 0; i < Width * Height; i++)
                 _slotGrid[i % 3, i / 3] = CreateSlot();
         }
 

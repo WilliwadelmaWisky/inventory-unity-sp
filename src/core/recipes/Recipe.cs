@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
+using System.Collections;
 
 namespace WWWisky.inventory.core.recipes
 {
@@ -34,11 +35,15 @@ namespace WWWisky.inventory.core.recipes
 		}
 
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="requirement"></param>
-		public void Add(IRequirement requirement)
+        public IEnumerator<IRequirement> GetEnumerator() => _requirementList.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="requirement"></param>
+        public void Add(IRequirement requirement)
         {
 			if (requirement == null || _requirementIDSet.Contains(requirement.ID))
 				return;
@@ -69,5 +74,5 @@ namespace WWWisky.inventory.core.recipes
 			CraftResult result = new CraftResult(true, craftable, 1);
 			return result;
         }
-	}
+    }
 }

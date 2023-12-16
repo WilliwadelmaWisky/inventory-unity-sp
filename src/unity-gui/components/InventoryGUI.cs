@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Pool;
 using WWWisky.inventory.core.components;
+using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui.components
@@ -12,6 +14,8 @@ namespace WWWisky.inventory.unity.gui.components
     {
         [SerializeField] private SlotGUI SlotPrefab;
         [SerializeField] private ListGUI SlotList;
+        [Header("Optional")]
+        [SerializeField] private SlotSortGUI SlotSort;
 
         private IInventory _inventory;
         private IObjectPool<IElementGUI> _slotPool;
@@ -41,15 +45,45 @@ namespace WWWisky.inventory.unity.gui.components
         /// <summary>
         /// 
         /// </summary>
-        public void Refresh()
+        public void Refresh() => Refresh(slot => true);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        private void Refresh(Predicate<ISlot> match)
         {
             SlotList.Clear().ForEach(slotGUI => _slotPool.Release(slotGUI));
-            _inventory.ForEach((slot, index) =>
+            _inventory.ForEach((slot, index) => 
             {
-                IElementGUI elementGUI = _slotPool.Get();
-                SlotList.Add(slot, elementGUI);
-                (elementGUI as MonoBehaviour).transform.SetSiblingIndex(index);
+                if (match(slot))
+                    AddSlot(slot, index);
             });
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="slot"></param>
+        private void AddSlot(ISlot slot, int index)
+        {
+            SlotGUI slotGUI = (SlotGUI)_slotPool.Get();
+            SlotList.Add(slot, slotGUI);
+            slotGUI.transform.SetSiblingIndex(index);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Sort()
+        {
+            if (SlotSort == null)
+                return;
+
+            _inventory.Sort(SlotSort.GetComparer());
+            Refresh(SlotSort.GetPredicate());
         }
     }
 }

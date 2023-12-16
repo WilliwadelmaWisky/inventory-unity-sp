@@ -8,7 +8,7 @@ namespace WWWisky.inventory.core.components
     /// <summary>
     /// 
     /// </summary>
-    public interface IInventory
+    public interface IInventory : ISortable<ISlot>
     {
         int SlotCount { get; }
 
