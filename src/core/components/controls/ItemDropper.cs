@@ -8,7 +8,6 @@ namespace WWWisky.inventory.core.components.controls
     public class ItemDropper
     {
         private readonly object _user;
-        private readonly IInventory _inventory;
 
 
         /// <summary>
@@ -16,23 +15,21 @@ namespace WWWisky.inventory.core.components.controls
         /// </summary>
         /// <param name="user"></param>
         /// <param name="inventory"></param>
-        public ItemDropper(object user, IInventory inventory)
+        public ItemDropper(object user)
         {
             _user = user;
-            _inventory = inventory;
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="index"></param>
-        public void Drop(int index)
+        /// <param name="slot"></param>
+        public void Drop(ISlot slot)
         {
-            if (_inventory.IsEmpty(index))
+            if (slot.IsEmpty)
                 return;
 
-            ISlot slot = _inventory.Get(index);
             slot.Clear();
         }
     }

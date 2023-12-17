@@ -5,6 +5,6 @@
     /// </summary>
     public interface IEquippable
     {
-        IEquippableType EquippableType { get; }
+        EquippableType EquippableType { get; }
     }
 }

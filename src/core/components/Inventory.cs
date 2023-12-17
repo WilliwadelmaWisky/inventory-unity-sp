@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.core.items;
@@ -29,23 +30,17 @@ namespace WWWisky.inventory.core.components
 			for (int i = 0; i < slotCount; i++)
 				Set(i, CreateSlot());
 		}
-		
-		
-		public ISlot Get(int index) => _slots[index];
+
+
+        public IEnumerator<ISlot> GetEnumerator() => ((IEnumerable<ISlot>)_slots).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+
+        public ISlot Get(int index) => _slots[index];
 		public bool IsEmpty(int index) => Get(index).IsEmpty;
 		protected void Set(int index, ISlot slot) => _slots[index] = slot;
 		protected virtual ISlot CreateSlot() => new Slot();
 
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="onLoop"></param>
-		public void ForEach(Action<ISlot, int> onLoop)
-        {
-			for (int i = 0; i < SlotCount; i++)
-				onLoop(_slots[i], i);
-        }
 
 		/// <summary>
 		/// 

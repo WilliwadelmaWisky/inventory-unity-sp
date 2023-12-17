@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace WWWisky.inventory.unity.items
+namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 

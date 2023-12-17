@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.unity.gui.controls;
-using WWWisky.inventory.unity.items;
 
 namespace WWWisky.inventory.unity.gui
 {

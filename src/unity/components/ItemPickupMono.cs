@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using WWWisky.inventory.unity.items;
 
-namespace WWWisky.inventory.unity.components
+namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 

@@ -3,7 +3,6 @@ using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.recipes;
-using WWWisky.inventory.unity.recipes;
 using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.core.components.controls;
 

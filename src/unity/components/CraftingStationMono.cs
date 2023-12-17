@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.recipes;
-using WWWisky.inventory.unity.recipes;
 
-namespace WWWisky.inventory.unity.components
+namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 

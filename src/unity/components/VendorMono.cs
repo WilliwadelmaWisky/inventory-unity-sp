@@ -2,9 +2,8 @@
 using WWWisky.inventory.core;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.items;
-using WWWisky.inventory.unity.items;
 
-namespace WWWisky.inventory.unity.components
+namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 
@@ -23,9 +22,7 @@ namespace WWWisky.inventory.unity.components
         void Awake()
         {
             _vendor = new Vendor(Name);
-        }
-        void Start()
-        {
+
             foreach (ItemSO itemSO in Items)
             {
                 IItem item = itemSO.Create();

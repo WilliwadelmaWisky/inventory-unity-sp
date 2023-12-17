@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using WWWisky.inventory.core.recipes;
-using WWWisky.inventory.unity.items;
 
 namespace WWWisky.inventory.unity.gui.controls
 {

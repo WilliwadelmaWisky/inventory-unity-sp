@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Pool;
+using WWWisky.inventory.core;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.unity.gui.controls;
@@ -34,7 +35,7 @@ namespace WWWisky.inventory.unity.gui.components
         /// 
         /// </summary>
         /// <param name="inventory"></param>
-        public void Assign(IInventory inventory)
+        public virtual void Assign(IInventory inventory)
         {
             _inventory = inventory;
 
@@ -70,7 +71,22 @@ namespace WWWisky.inventory.unity.gui.components
         {
             SlotGUI slotGUI = (SlotGUI)_slotPool.Get();
             SlotList.Add(slot, slotGUI);
+            slotGUI.OnClicked += () => OnSlotClicked(slotGUI);
             slotGUI.transform.SetSiblingIndex(index);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="slotGUI"></param>
+        private void OnSlotClicked(SlotGUI slotGUI)
+        {
+            if (slotGUI == null || slotGUI.Slot.IsEmpty)
+                return;
+
+            Debug.Log("Use: " + slotGUI.Slot.Item.Name);
+
         }
 
 

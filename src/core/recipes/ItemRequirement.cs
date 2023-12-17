@@ -1,4 +1,5 @@
 ﻿using WWWisky.inventory.core.components;
+using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.core.items;
 
 namespace WWWisky.inventory.core.recipes
@@ -40,12 +41,12 @@ namespace WWWisky.inventory.core.recipes
             {
                 int neededAmount = Amount;
                 IInventory inventory = support.GetInventory();
-                for (int i = 0; i < inventory.SlotCount; i++)
+                foreach (ISlot slot in inventory)
                 {
-                    if (inventory.IsEmpty(i) || !inventory.Get(i).Item.IsEqual(Item))
+                    if (slot.IsEmpty || !slot.Item.IsEqual(Item))
                         continue;
 
-                    neededAmount -= inventory.Get(i).Amount;
+                    neededAmount -= slot.Amount;
                     if (neededAmount <= 0)
                         return true;
                 }

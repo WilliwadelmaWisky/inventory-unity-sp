@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.items;
 
-namespace WWWisky.inventory.unity.items
+namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 

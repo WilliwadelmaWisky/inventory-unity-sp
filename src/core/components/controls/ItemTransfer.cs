@@ -8,37 +8,22 @@ namespace WWWisky.inventory.core.components.controls
     /// </summary>
     public class ItemTransfer
     {
-        private readonly IInventory _inventory;
-
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="inventory"></param>
-        public ItemTransfer(IInventory inventory)
-        {
-            _inventory = inventory;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="index"></param>
+        /// <param name="slot"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public bool Transfer(int index, IInventory target)
+        public bool Transfer(ISlot slot, IInventory target)
         {
-            if (_inventory.IsEmpty(index))
+            if (slot.IsEmpty)
                 return false;
 
-            ISlot slot = _inventory.Get(index);
             AddItemResult result = target.AddItem(slot.Item, slot.Amount);
-
             if (!result.Success)
                 return false;
 
-            _inventory.RemoveItem(slot.Item, result.Amount, index);
+            slot.Remove(slot.Item, result.Amount);
             return true;
         }
 
@@ -46,36 +31,32 @@ namespace WWWisky.inventory.core.components.controls
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="target"></param>
-        /// <param name="targetIndex"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         /// <returns></returns>
-        public bool Transfer(int index, IInventory target, int targetIndex)
+        public bool Transfer(ISlot a, ISlot b)
         {
-            if (_inventory.IsEmpty(index))
+            if (a.IsEmpty)
                 return false;
 
-            ISlot slot = _inventory.Get(index);
-            ISlot targetSlot = target.Get(targetIndex);
-
-            if (target.IsEmpty(targetIndex) || slot.Item.IsEqual(targetSlot.Item))
+            if (b.IsEmpty || a.Item.IsEqual(b.Item))
             {
-                AddItemResult result = target.AddItem(slot.Item, slot.Amount, index);
+                AddItemResult result = b.Add(a.Item, a.Amount);
                 if (!result.Success)
                     return false;
 
-                _inventory.RemoveItem(slot.Item, result.Amount);
+                a.Remove(a.Item, result.Amount);
                 return true;
             }
 
-            if (!slot.IsAcceptable(targetSlot.Item) || !targetSlot.IsAcceptable(slot.Item))
+            if (!a.IsAcceptable(b.Item) || !b.IsAcceptable(a.Item))
                 return false;
-            if (slot.Amount > targetSlot.GetStackSize(slot.Item) || targetSlot.Amount > slot.GetStackSize(targetSlot.Item))
+            if (a.Amount > b.GetStackSize(a.Item) || b.Amount > a.GetStackSize(b.Item))
                 return false;
 
-            RemoveItemResult clearResult = targetSlot.Clear();
-            target.AddItem(slot.Item, slot.Amount, targetIndex);
-            _inventory.AddItem(clearResult.Item, clearResult.Amount, index);
+            RemoveItemResult clearResult = b.Clear();
+            b.Add(a.Item, a.Amount);
+            a.Add(clearResult.Item, clearResult.Amount);
             return true;
         }
     }

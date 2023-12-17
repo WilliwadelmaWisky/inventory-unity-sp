@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using WWWisky.inventory.core.components.sub;
 
 namespace WWWisky.inventory.unity.gui.controls
@@ -6,8 +8,10 @@ namespace WWWisky.inventory.unity.gui.controls
     /// <summary>
     /// 
     /// </summary>
-    public abstract class SlotGUI : MonoBehaviour, IElementGUI
+    public abstract class SlotGUI : MonoBehaviour, IElementGUI, IPointerClickHandler
     {
+        public event Action OnClicked;
+
         public ISlot Slot { get; private set; }
 
 
@@ -38,6 +42,7 @@ namespace WWWisky.inventory.unity.gui.controls
 
             Slot.OnUpdated -= OnSlotUpdated;
             Slot = null;
+            OnClicked = null;
 
             gameObject.SetActive(false);
         }
@@ -57,5 +62,15 @@ namespace WWWisky.inventory.unity.gui.controls
         /// 
         /// </summary>
         protected abstract void OnSlotUpdated();
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventData"></param>
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            OnClicked?.Invoke();
+        }
     }
 }

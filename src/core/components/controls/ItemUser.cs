@@ -1,5 +1,6 @@
 ﻿using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
+using WWWisky.inventory.core.components.sub;
 
 namespace WWWisky.inventory.core.components.controls
 {
@@ -9,18 +10,15 @@ namespace WWWisky.inventory.core.components.controls
     public class ItemUser
     {
 		private readonly object _user;
-		private readonly IInventory _inventory;
 
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="user"></param>
-		/// <param name="inventory"></param>
-		public ItemUser(object user, IInventory inventory)
+		public ItemUser(object user)
         {
 			_user = user;
-			_inventory = inventory;
         }
 
 
@@ -29,13 +27,12 @@ namespace WWWisky.inventory.core.components.controls
 		/// </summary>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		public bool Use(int index)
+		public bool Use(ISlot slot)
 		{
-			if (_inventory.IsEmpty(index))
-				return false;
+			if (slot == null || slot.IsEmpty)
+                return false;
 
-			IItem item = _inventory.Get(index).Item;
-			if (item is IUseable useable)
+			if (slot.Item is IUseable useable)
 				return useable.Use(ItemUseEvent.Default);
 
 			return false;

@@ -7,7 +7,7 @@ namespace WWWisky.inventory.core.components.sub
     /// </summary>
     public class EquipmentSlot : Slot
     {
-        private readonly IEquippableType _equippableType;
+        private readonly EquippableType _equippableType;
         private readonly ISlot[] _auqmentSlots;
 
 
@@ -15,7 +15,7 @@ namespace WWWisky.inventory.core.components.sub
         /// 
         /// </summary>
         /// <param name="equippableType"></param>
-        public EquipmentSlot(IEquippableType equippableType)
+        public EquipmentSlot(EquippableType equippableType)
         {
             _equippableType = equippableType;
             _auqmentSlots = new ISlot[0];
@@ -30,7 +30,7 @@ namespace WWWisky.inventory.core.components.sub
         public override bool IsAcceptable(IItem item)
         {
             if (item is IEquippable equippable)
-                return equippable.EquippableType.Name.Equals(_equippableType.Name);
+                return equippable.EquippableType == _equippableType;
             return false;
         }
     }

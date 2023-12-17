@@ -3,9 +3,8 @@ using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.controls;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.recipes;
-using WWWisky.inventory.unity.recipes;
 
-namespace WWWisky.inventory.unity.components
+namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 
@@ -33,9 +32,9 @@ namespace WWWisky.inventory.unity.components
             _craftingStation.Access(this);
             _equipment = new Equipment();
 
-            _itemUser = new ItemUser(gameObject, _inventory);
-            _itemDropper = new ItemDropper(gameObject, _inventory);
-            _itemTransfer = new ItemTransfer(_inventory);
+            _itemUser = new ItemUser(gameObject);
+            _itemDropper = new ItemDropper(gameObject);
+            _itemTransfer = new ItemTransfer();
 
             foreach (RecipeSO recipeSO in Recipes)
             {
