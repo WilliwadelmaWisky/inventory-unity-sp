@@ -7,7 +7,7 @@ namespace WWWisky.inventory.core.items
 	{
         public string ID { get; }
 		public string Name { get; }
-        public IItemType Type { get; }
+        public ItemType Type { get; }
 
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace WWWisky.inventory.core.items
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        public Item(string id, string name, IItemType type)
+        public Item(string id, string name, ItemType type)
 		{
             ID = id;
 			Name = name;

@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using WWWisky.inventory.core.recipes;
+using WWWisky.inventory.core.util;
 
 namespace WWWisky.inventory.core.components
 {
@@ -10,6 +12,7 @@ namespace WWWisky.inventory.core.components
     public class CraftingStation : ICraftingStation
 	{
         public string Name { get; }
+        protected ICrafter<IRecipe> CurrentCrafter { get; private set; }
 
 		private readonly List<IRecipe> _recipeList;
 		private readonly HashSet<string> _recipeIDSet;
@@ -24,23 +27,22 @@ namespace WWWisky.inventory.core.components
 		public CraftingStation(string name)
 		{
             Name = name;
+            CurrentCrafter = null;
 			_recipeList = new List<IRecipe>();
 			_recipeIDSet = new HashSet<string>();
 		}
 
 
+        public IEnumerator<IRecipe> GetEnumerator() => _recipeList.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <returns></returns>
 		public bool Contains(IRecipe recipe) => _recipeIDSet.Contains(recipe.ID);
-
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="onLoop"></param>
-		public void ForEach(Action<IRecipe, int> onLoop)
-        {
-			for (int i = 0; i < RecipeCount; i++)
-				onLoop(_recipeList[i], i);
-        }
 		
 
 		/// <summary>
@@ -84,24 +86,27 @@ namespace WWWisky.inventory.core.components
 		/// <param name="recipe"></param>
 		/// <param name="amount"></param>
 		/// <param name="crafter"></param>
-		public virtual void Craft(IRecipe recipe, int amount, ICrafter<IRecipe> crafter)
+		public virtual void Craft(IRecipe recipe, int amount)
 		{
-			if (!crafter.HasResources(recipe, amount) || !Contains(recipe))
+			if (CurrentCrafter == null || !CurrentCrafter.HasResources(recipe, amount) || !Contains(recipe))
 				return;
 
-			crafter.UseResources(recipe, amount);
+            CurrentCrafter.UseResources(recipe, amount);
+            CraftResult result = recipe.Craft();
+            if (!result.Success)
+                return;
+
+            CurrentCrafter.OnCrafted(result.Craftable, result.Quantity);
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="index"></param>
-		/// <param name="amount"></param>
-		/// <param name="crafter"></param>
-		public void Craft(int index, int amount, ICrafter<IRecipe> crafter)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="crafter"></param>
+        public void Access(ICrafter<IRecipe> crafter)
         {
-			IRecipe recipe = _recipeList[index];
-			Craft(recipe, amount, crafter);
+            CurrentCrafter = crafter;
         }
     }
 }

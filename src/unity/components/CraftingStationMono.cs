@@ -10,7 +10,6 @@ namespace WWWisky.inventory.unity.components
     /// </summary>
     public class CraftingStationMono : MonoBehaviour
     {
-        [SerializeField] private string ID;
         [SerializeField] private string Name;
         [SerializeField] private RecipeSO[] Recipes; 
 

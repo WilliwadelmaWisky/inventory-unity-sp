@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using WWWisky.inventory.core;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.unity.items;
@@ -10,6 +11,7 @@ namespace WWWisky.inventory.unity.components
     /// </summary>
     public class VendorMono : MonoBehaviour
     {
+        [SerializeField] private string Name;
         [SerializeField] private ItemSO[] Items;
 
         private Vendor _vendor;
@@ -20,8 +22,10 @@ namespace WWWisky.inventory.unity.components
         /// </summary>
         void Awake()
         {
-            _vendor = new Vendor();
-
+            _vendor = new Vendor(Name);
+        }
+        void Start()
+        {
             foreach (ItemSO itemSO in Items)
             {
                 IItem item = itemSO.Create();
@@ -31,15 +35,6 @@ namespace WWWisky.inventory.unity.components
         }
 
 
-        public void Buy()
-        {
-
-        }
-
-
-        public void Sell()
-        {
-
-        }
+        public IVendor GetVendor() => _vendor;
     }
 }

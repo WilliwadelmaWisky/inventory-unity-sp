@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.core.components
@@ -6,11 +6,11 @@ namespace WWWisky.inventory.core.components
     /// <summary>
     /// 
     /// </summary>
-    public interface ICraftingStation
+    public interface ICraftingStation : IEnumerable<IRecipe>
     {
         string Name { get; }
 
-        void ForEach(Action<IRecipe, int> onLoop);
-        void Craft(IRecipe recipe, int amount, ICrafter<IRecipe> crafter);
+        void Craft(IRecipe recipe, int amount);
+        void Access(ICrafter<IRecipe> crafter);
     }
 }

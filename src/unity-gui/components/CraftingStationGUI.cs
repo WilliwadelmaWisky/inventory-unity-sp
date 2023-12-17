@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Pool;
+using WWWisky.inventory.core;
 using WWWisky.inventory.core.components;
+using WWWisky.inventory.core.recipes;
 using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui.components
@@ -41,16 +44,43 @@ namespace WWWisky.inventory.unity.gui.components
         /// <summary>
         /// 
         /// </summary>
-        public void Refresh()
+        public void Refresh() => Refresh(recipe => true);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        public void Refresh(Predicate<IRecipe> match)
         {
             RecipeList.Clear().ForEach(slotGUI => _recipePool.Release(slotGUI));
             _craftingStation.ForEach((recipe, index) =>
             {
-                RecipeGUI recipeGUI = (RecipeGUI)_recipePool.Get();
-                RecipeList.Add(recipe, recipeGUI);
-                recipeGUI.OnClicked += () => OnRecipeClicked(recipeGUI);
-                recipeGUI.transform.SetSiblingIndex(index);
+                if (match(recipe))
+                    AddRecipe(recipe, index);
             });
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <param name="index"></param>
+        private void AddRecipe(IRecipe recipe, int index)
+        {
+            RecipeGUI recipeGUI = (RecipeGUI)_recipePool.Get();
+            RecipeList.Add(recipe, recipeGUI);
+            recipeGUI.OnClicked += () => OnRecipeClicked(recipeGUI);
+            recipeGUI.transform.SetSiblingIndex(index);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Sort()
+        {
+
         }
 
 
@@ -63,7 +93,8 @@ namespace WWWisky.inventory.unity.gui.components
             if (recipeGUI == null)
                 return;
 
-            Debug.Log($"Click: {recipeGUI.Recipe.Name}");
+            Debug.Log($"Craft: {recipeGUI.Recipe.Name}");
+            _craftingStation.Craft(recipeGUI.Recipe, 1);
         }
     }
 }

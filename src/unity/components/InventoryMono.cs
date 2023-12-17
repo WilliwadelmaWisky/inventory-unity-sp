@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.controls;
+using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.recipes;
 using WWWisky.inventory.unity.recipes;
 
@@ -9,7 +10,7 @@ namespace WWWisky.inventory.unity.components
     /// <summary>
     /// 
     /// </summary>
-    public class InventoryMono : MonoBehaviour, ICrafter<IRecipe>
+    public class InventoryMono : MonoBehaviour, ICrafter<IRecipe>, ISupportItemRequirements, ICustomer<IVendible>
     {
         [SerializeField, Min(2)] private int SlotCount = 30;
         [SerializeField] private RecipeSO[] Recipes;
@@ -29,6 +30,7 @@ namespace WWWisky.inventory.unity.components
         {
             _inventory = new Inventory(SlotCount);
             _craftingStation = new CraftingStation("Inventory");
+            _craftingStation.Access(this);
             _equipment = new Equipment();
 
             _itemUser = new ItemUser(gameObject, _inventory);
@@ -73,6 +75,38 @@ namespace WWWisky.inventory.unity.components
         {
             foreach (IRequirement requirement in recipe)
                 requirement.Use(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="craftable"></param>
+        /// <param name="amount"></param>
+        public void OnCrafted(ICraftable craftable, int amount)
+        {
+            if (!(craftable is IItem item))
+                return;
+
+            _inventory.AddItem(item, amount);
+        }
+
+
+        public bool CanBuy(IVendible vendible, int amount)
+        {
+            return true;
+        }
+
+        public void Buy(IVendible vendible, int amount)
+        {
+            if (!(vendible is IItem item))
+                return;
+
+            _inventory.AddItem(item, amount);
+        }
+
+        public void Sell(IVendible vendible, int amount)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

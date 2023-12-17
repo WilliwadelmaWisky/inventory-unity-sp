@@ -23,6 +23,7 @@ namespace WWWisky.inventory.unity.gui.controls
         void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
+            _canvasGroup.alpha = 1;
         }
 
 
@@ -32,7 +33,8 @@ namespace WWWisky.inventory.unity.gui.controls
         protected override void OnSlotUpdated()
         {
             _canvasGroup.blocksRaycasts = !Slot.IsEmpty;
-            _canvasGroup.alpha = Slot.IsEmpty ? 0 : 1;
+            IconImage.gameObject.SetActive(!Slot.IsEmpty);
+            AmountText.gameObject.SetActive(false);
             if (Slot.IsEmpty)
                 return;
 

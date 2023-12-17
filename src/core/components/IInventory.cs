@@ -2,6 +2,7 @@
 using WWWisky.inventory.core.util;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.components.sub;
+using System.Collections.Generic;
 
 namespace WWWisky.inventory.core.components
 {

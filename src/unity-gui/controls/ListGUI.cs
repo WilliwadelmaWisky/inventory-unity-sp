@@ -68,6 +68,10 @@ namespace WWWisky.inventory.unity.gui.controls
         {
             List<IElementGUI> elementList = new List<IElementGUI>(_elementList);
             _elementList.Clear();
+
+            foreach (IElementGUI element in elementList)
+                element.Clear();
+
             return elementList;
         }
     }

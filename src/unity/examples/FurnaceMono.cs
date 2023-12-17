@@ -114,5 +114,10 @@ namespace WWWisky.inventory.unity.examples
                 });
             }
         }
+
+        public void OnCrafted(ICraftable craftable, int amount)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

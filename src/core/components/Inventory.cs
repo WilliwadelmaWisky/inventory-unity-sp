@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using WWWisky.inventory.core.util;
-using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.components.sub;
+using WWWisky.inventory.core.items;
+using WWWisky.inventory.core.util;
 
 namespace WWWisky.inventory.core.components
 {
@@ -82,6 +82,16 @@ namespace WWWisky.inventory.core.components
 				return AddItemResult.Failure;
 
 			int amountToAdd = amount;
+            for (int i = 0; i < SlotCount; i++)
+            {
+                ISlot slot = Get(i);
+                if (slot.IsEmpty || !slot.Item.IsEqual(item) || slot.Amount >= slot.GetStackSize(item))
+                    continue;
+
+                AddItemResult result = AddItem(item, amountToAdd, i);
+                amountToAdd -= result.Amount;
+            }
+
 			for (int i = 0; i < SlotCount && amountToAdd > 0; i++)
 			{
 				AddItemResult result = AddItem(item, amountToAdd, i);
@@ -154,7 +164,10 @@ namespace WWWisky.inventory.core.components
 		/// <param name="comparer"></param>
 		public void Sort(IComparer<ISlot> comparer)
         {
+            if (comparer == null)
+                return;
+
 			Array.Sort(_slots, comparer);
         }
-	}
+    }
 }

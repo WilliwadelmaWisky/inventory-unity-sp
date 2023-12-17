@@ -7,7 +7,7 @@
     {
         string ID { get; }
         string Name { get; }
-        IItemType Type { get; }
+        ItemType Type { get; }
 
         bool IsEqual(IItem other);
     }

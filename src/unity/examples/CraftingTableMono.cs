@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.sub;
+using WWWisky.inventory.core.items;
 using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.unity.examples
@@ -52,6 +53,11 @@ namespace WWWisky.inventory.unity.examples
         {
             foreach (IRequirement requirement in recipe)
                 requirement.Use(this);
+        }
+
+        public void OnCrafted(ICraftable craftable, int amount)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

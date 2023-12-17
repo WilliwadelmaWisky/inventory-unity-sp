@@ -23,6 +23,8 @@ namespace WWWisky.inventory.unity.gui.controls
             Slot = slot;
             Slot.OnUpdated += OnSlotUpdated;
             OnSlotUpdated();
+
+            gameObject.SetActive(true);
         }
 
 
@@ -36,6 +38,8 @@ namespace WWWisky.inventory.unity.gui.controls
 
             Slot.OnUpdated -= OnSlotUpdated;
             Slot = null;
+
+            gameObject.SetActive(false);
         }
 
 

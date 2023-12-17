@@ -12,7 +12,7 @@ namespace WWWisky.inventory.core.examples
         public int StackSize { get; } = 5;
 
 
-        public Item_Apple(string id, string name) : base(id, name, new Consumable())
+        public Item_Apple(string id, string name) : base(id, name, ItemType.Consumable)
         {
 
         }
