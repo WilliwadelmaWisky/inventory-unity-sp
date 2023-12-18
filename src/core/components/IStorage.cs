@@ -1,4 +1,5 @@
 ﻿using WWWisky.inventory.core.components;
+using WWWisky.inventory.core.components.sub;
 
 namespace WWWisky.inventory.core
 {
@@ -8,5 +9,7 @@ namespace WWWisky.inventory.core
     public interface IStorage : IInventory
     {
         string Name { get; }
+
+        void Access(IItemHolder itemHolder);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using WWWisky.inventory.core;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.controls;
 using WWWisky.inventory.core.items;
@@ -9,13 +10,14 @@ namespace WWWisky.inventory.unity
     /// <summary>
     /// 
     /// </summary>
-    public class InventoryMono : MonoBehaviour, ICrafter<IRecipe>, ISupportItemRequirements, ICustomer<IVendible>
+    public class InventoryMono : MonoBehaviour, ICrafter<IRecipe>, ISupportItemRequirements, ICustomer
     {
         [SerializeField, Min(2)] private int SlotCount = 30;
         [SerializeField] private RecipeSO[] Recipes;
 
-        private IInventory _inventory;
+        private Inventory _inventory;
         private CraftingStation _craftingStation;
+        private Vendor _vendor;
         private Equipment _equipment;
         private ItemUser _itemUser;
         private ItemDropper _itemDropper;
@@ -31,6 +33,7 @@ namespace WWWisky.inventory.unity
             _craftingStation = new CraftingStation("Inventory");
             _craftingStation.Access(this);
             _equipment = new Equipment();
+            _vendor = new Vendor("Inventory");
 
             _itemUser = new ItemUser(gameObject);
             _itemDropper = new ItemDropper(gameObject);

@@ -13,6 +13,6 @@ namespace WWWisky.inventory.core
 
         void Buy(IVendible vendible, int amount);
         void Sell(IVendible vendbile, int amount);
-        void Access(ICustomer<IVendible> customer);
+        void Access(ICustomer customer);
     }
 }

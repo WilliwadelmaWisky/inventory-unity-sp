@@ -10,7 +10,7 @@ namespace WWWisky.inventory.core.components
     public class Vendor : IVendor
     {
         public string Name { get; }
-        protected ICustomer<IVendible> CurrentCustomer { get; private set; }
+        protected ICustomer CurrentCustomer { get; private set; }
 
         private readonly List<IVendible> _vendibleList;
         private readonly HashSet<string> _vendibleIDSet;
@@ -86,9 +86,12 @@ namespace WWWisky.inventory.core.components
         /// 
         /// </summary>
         /// <param name="customer"></param>
-        public void Access(ICustomer<IVendible> customer)
+        public void Access(ICustomer customer)
         {
             CurrentCustomer = customer;
+
+            Event_VendorAccess e = new Event_VendorAccess(this);
+            EventSystem.Current.Broadcast(e);
         }
     }
 }

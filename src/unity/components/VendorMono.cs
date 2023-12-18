@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using WWWisky.inventory.core;
 using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.items;
 
@@ -32,6 +31,13 @@ namespace WWWisky.inventory.unity
         }
 
 
-        public IVendor GetVendor() => _vendor;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="customer"></param>
+        public void Access(ICustomer customer)
+        {
+            _vendor.Access(customer);
+        }
     }
 }

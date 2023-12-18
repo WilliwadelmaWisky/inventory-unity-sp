@@ -1,12 +1,14 @@
-﻿namespace WWWisky.inventory.core.components
+﻿using WWWisky.inventory.core.items;
+
+namespace WWWisky.inventory.core.components
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface ICustomer<T>
+    public interface ICustomer
     {
-        bool CanBuy(T item, int amount);
-        void Buy(T item, int amount);
-        void Sell(T item, int amount);
+        bool CanBuy(IVendible vendible, int amount);
+        void Buy(IVendible vendible, int amount);
+        void Sell(IVendible vendible, int amount);
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using WWWisky.inventory.core;
 using WWWisky.inventory.core.items;
 using WWWisky.inventory.unity.gui.controls;
 
-namespace WWWisky.inventory.unity.gui.components
+namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 
@@ -14,9 +15,12 @@ namespace WWWisky.inventory.unity.gui.components
     {
         [SerializeField] private VendibleGUI VendiblePrefab;
         [SerializeField] private ListGUI VendibleList;
+        [Header("Optional")]
+        [SerializeField] private TextMeshProUGUI NameText;
 
-        private IVendor _vendor;
+        private WindowGUI _windowGUI;
         private IObjectPool<IElementGUI> _slotPool;
+        private IVendor _vendor;
 
 
         /// <summary>
@@ -25,6 +29,7 @@ namespace WWWisky.inventory.unity.gui.components
         void Awake()
         {
             _slotPool = new ObjectPool<IElementGUI>(() => (VendibleGUI)VendiblePrefab.Clone());
+            _windowGUI = GetComponent<WindowGUI>();
         }
 
 
@@ -36,7 +41,10 @@ namespace WWWisky.inventory.unity.gui.components
         {
             _vendor = vendor;
 
+            NameText?.SetText(_vendor.Name);
             Refresh();
+
+            _windowGUI?.Show();
         }
 
 

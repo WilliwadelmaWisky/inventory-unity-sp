@@ -6,7 +6,7 @@ using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.components.sub;
 using WWWisky.inventory.unity.gui.controls;
 
-namespace WWWisky.inventory.unity.gui.components
+namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 
@@ -17,6 +17,7 @@ namespace WWWisky.inventory.unity.gui.components
         [SerializeField] private ListGUI SlotList;
         [Header("Optional")]
         [SerializeField] private SlotSortGUI SlotSort;
+        [SerializeField] private SlotSelectorGUI SlotSelector;
 
         private IInventory _inventory;
         private IObjectPool<IElementGUI> _slotPool;
@@ -35,7 +36,7 @@ namespace WWWisky.inventory.unity.gui.components
         /// 
         /// </summary>
         /// <param name="inventory"></param>
-        public virtual void Assign(IInventory inventory)
+        public void Assign(IInventory inventory)
         {
             _inventory = inventory;
 
@@ -85,8 +86,8 @@ namespace WWWisky.inventory.unity.gui.components
             if (slotGUI == null || slotGUI.Slot.IsEmpty)
                 return;
 
-            Debug.Log("Use: " + slotGUI.Slot.Item.Name);
-
+            Debug.Log("Select: " + slotGUI.Slot.Item.Name);
+            SlotSelector?.Select(slotGUI);
         }
 
 

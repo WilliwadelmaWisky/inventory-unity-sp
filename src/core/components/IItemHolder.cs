@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
+using WWWisky.inventory.core.components;
 
-namespace WWWisky.inventory.unity.gui
+namespace WWWisky.inventory.core
 {
     /// <summary>
     /// 
     /// </summary>
-    public class SlotClickHandler : MonoBehaviour
+    public interface IItemHolder
     {
-        public void Click()
-        {
-
-        }
+        IInventory GetInventory();
     }
 }
