@@ -11,7 +11,7 @@ namespace WWWisky.inventory.unity.examples
     /// <summary>
     /// 
     /// </summary>
-    public class FurnaceMono : MonoBehaviour, ICrafter<IRecipe>
+    public class FurnaceMono : MonoBehaviour, ICrafter
     {
         [SerializeField] private RecipeSO[] Recipes;
 

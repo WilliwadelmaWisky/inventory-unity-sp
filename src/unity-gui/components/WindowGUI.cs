@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -9,9 +8,6 @@ namespace WWWisky.inventory.unity.gui
     [RequireComponent(typeof(CanvasGroup))]
     public class WindowGUI : MonoBehaviour
     {
-        [Header("Optional")]
-        [SerializeField] private Button CloseButton;
-
         protected CanvasGroup CanvasGroup { get; private set; }
 
 
@@ -21,9 +17,7 @@ namespace WWWisky.inventory.unity.gui
         protected virtual void Awake()
         {
             CanvasGroup = GetComponent<CanvasGroup>();
-            CloseButton?.onClick.AddListener(Hide);
-
-            Hide();
+            SetVisibleImmediate(false);
         }
 
 

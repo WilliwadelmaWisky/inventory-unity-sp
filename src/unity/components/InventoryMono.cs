@@ -10,7 +10,7 @@ namespace WWWisky.inventory.unity
     /// <summary>
     /// 
     /// </summary>
-    public class InventoryMono : MonoBehaviour, ICrafter<IRecipe>, ISupportItemRequirements, ICustomer
+    public class InventoryMono : MonoBehaviour, ICrafter, ISupportItemRequirements, ICustomer
     {
         [SerializeField, Min(2)] private int SlotCount = 30;
         [SerializeField] private RecipeSO[] Recipes;
@@ -31,7 +31,6 @@ namespace WWWisky.inventory.unity
         {
             _inventory = new Inventory(SlotCount);
             _craftingStation = new CraftingStation("Inventory");
-            _craftingStation.Access(this);
             _equipment = new Equipment();
             _vendor = new Vendor("Inventory");
 
@@ -49,6 +48,15 @@ namespace WWWisky.inventory.unity
 
         public IInventory GetInventory() => _inventory;
         public ICraftingStation GetCraftingStation() => _craftingStation;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Access()
+        {
+            _craftingStation.Access(this);
+        }
 
 
         /// <summary>

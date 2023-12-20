@@ -19,7 +19,6 @@ namespace WWWisky.inventory.unity.gui
         [SerializeField] private TextMeshProUGUI NameText;
         [SerializeField] private SlotSortGUI SlotSort;
 
-        private WindowGUI _windowGUI;
         private IObjectPool<IElementGUI> _slotPool;
         private IStorage _storage;
 
@@ -30,7 +29,6 @@ namespace WWWisky.inventory.unity.gui
         void Awake()
         {
             _slotPool = new ObjectPool<IElementGUI>(() => (IElementGUI)SlotPrefab.Clone());
-            _windowGUI = GetComponent<WindowGUI>();
         }
 
 
@@ -44,8 +42,6 @@ namespace WWWisky.inventory.unity.gui
             
             NameText?.SetText(storage.Name);
             Refresh();
-
-            _windowGUI?.Show();
         }
 
 

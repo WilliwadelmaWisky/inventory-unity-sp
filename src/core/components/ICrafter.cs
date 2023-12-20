@@ -1,14 +1,15 @@
 ﻿using WWWisky.inventory.core.items;
+using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.core.components
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface ICrafter<T>
+    public interface ICrafter
     {
-        bool HasResources(T recipe, int amount);
-        void UseResources(T recipe, int amount);
+        bool HasResources(IRecipe recipe, int amount);
+        void UseResources(IRecipe recipe, int amount);
         void OnCrafted(ICraftable craftable, int amount);
     }
 }

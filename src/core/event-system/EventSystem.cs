@@ -37,12 +37,24 @@
         /// 
         /// </summary>
         /// <param name="onReceived"></param>
-        public void Listen(EventReceiveDelegate onReceived)
+        public void AddListener(EventReceiveDelegate onReceived)
         {
             if (onReceived == null)
                 return;
 
             OnEventReceived += onReceived;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="onReceived"></param>
+        public void RemoveListener(EventReceiveDelegate onReceived)
+        {
+            if (onReceived == null)
+                return;
+
+            OnEventReceived -= onReceived;
         }
     }
 }

@@ -6,7 +6,7 @@ using WWWisky.inventory.core.components;
 using WWWisky.inventory.core.recipes;
 using WWWisky.inventory.unity.gui.controls;
 
-namespace WWWisky.inventory.unity.gui.components
+namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 

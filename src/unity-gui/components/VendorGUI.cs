@@ -18,7 +18,6 @@ namespace WWWisky.inventory.unity.gui
         [Header("Optional")]
         [SerializeField] private TextMeshProUGUI NameText;
 
-        private WindowGUI _windowGUI;
         private IObjectPool<IElementGUI> _slotPool;
         private IVendor _vendor;
 
@@ -29,7 +28,6 @@ namespace WWWisky.inventory.unity.gui
         void Awake()
         {
             _slotPool = new ObjectPool<IElementGUI>(() => (VendibleGUI)VendiblePrefab.Clone());
-            _windowGUI = GetComponent<WindowGUI>();
         }
 
 
@@ -43,8 +41,6 @@ namespace WWWisky.inventory.unity.gui
 
             NameText?.SetText(_vendor.Name);
             Refresh();
-
-            _windowGUI?.Show();
         }
 
 

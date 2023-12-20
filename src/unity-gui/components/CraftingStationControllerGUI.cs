@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using WWWisky.inventory.core;
+using WWWisky.inventory.core.components;
 
 namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 
     /// </summary>
-    [RequireComponent(typeof(VendorGUI), typeof(WindowGUI))]
-    public class VendorControllerGUI : MonoBehaviour
+    [RequireComponent(typeof(CraftingStationGUI), typeof(WindowGUI))]
+    public class CraftingStationControllerGUI : MonoBehaviour
     {
         [Header("Optional")]
         [SerializeField] private Button CloseButton;
 
-        protected VendorGUI VendorGUI { get; private set; }
+        protected CraftingStationGUI CraftingStationGUI { get; private set; }
         protected WindowGUI WindowGUI { get; private set; }
 
 
@@ -22,13 +23,12 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         protected virtual void Awake()
         {
-            VendorGUI = GetComponent<VendorGUI>();
+            CraftingStationGUI = GetComponent<CraftingStationGUI>();
             WindowGUI = GetComponent<WindowGUI>();
 
-            CloseButton?.onClick.AddListener(CloseVendorGUI);
+            CloseButton?.onClick.AddListener(CloseCraftingStationGUI);
             EventSystem.Current.AddListener(OnEventReceived);
         }
-
 
         /// <summary>
         /// 
@@ -45,25 +45,25 @@ namespace WWWisky.inventory.unity.gui
         /// <param name="e"></param>
         protected virtual void OnEventReceived(IEvent e)
         {
-            if (e is Event_VendorAccess vendorAccessEvent)
-                OpenVendorGUI(vendorAccessEvent.Vendor);
+            if (e is Event_CraftingStationAccess craftingStationAccessEvent)
+                OpenCraftingStationGUI(craftingStationAccessEvent.CraftingStation);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="vendor"></param>
-        public virtual void OpenVendorGUI(IVendor vendor)
+        /// <param name="craftingStation"></param>
+        public virtual void OpenCraftingStationGUI(ICraftingStation craftingStation)
         {
-            VendorGUI.Assign(vendor);
+            CraftingStationGUI.Assign(craftingStation);
             WindowGUI.Show();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void CloseVendorGUI()
+        public virtual void CloseCraftingStationGUI()
         {
             WindowGUI.Hide();
         }

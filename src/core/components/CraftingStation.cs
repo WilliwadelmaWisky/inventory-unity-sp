@@ -12,7 +12,7 @@ namespace WWWisky.inventory.core.components
     public class CraftingStation : ICraftingStation
 	{
         public string Name { get; }
-        protected ICrafter<IRecipe> CurrentCrafter { get; private set; }
+        protected ICrafter CurrentCrafter { get; private set; }
 
 		private readonly List<IRecipe> _recipeList;
 		private readonly HashSet<string> _recipeIDSet;
@@ -104,9 +104,12 @@ namespace WWWisky.inventory.core.components
         /// 
         /// </summary>
         /// <param name="crafter"></param>
-        public void Access(ICrafter<IRecipe> crafter)
+        public void Access(ICrafter crafter)
         {
             CurrentCrafter = crafter;
+
+            IEvent e = new Event_CraftingStationAccess(this, CurrentCrafter);
+            EventSystem.Current.Broadcast(e);
         }
     }
 }

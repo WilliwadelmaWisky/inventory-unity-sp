@@ -9,7 +9,7 @@ namespace WWWisky.inventory.unity.examples
     /// <summary>
     /// 
     /// </summary>
-    public class CraftingTableMono : MonoBehaviour, ICrafter<IRecipe>
+    public class CraftingTableMono : MonoBehaviour, ICrafter
     {
         private const int SIZE = 3;
 

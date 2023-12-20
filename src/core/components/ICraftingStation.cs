@@ -11,6 +11,6 @@ namespace WWWisky.inventory.core.components
         string Name { get; }
 
         void Craft(IRecipe recipe, int amount);
-        void Access(ICrafter<IRecipe> crafter);
+        void Access(ICrafter crafter);
     }
 }
