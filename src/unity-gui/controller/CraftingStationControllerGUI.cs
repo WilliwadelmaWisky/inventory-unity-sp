@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.components;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -58,6 +57,8 @@ namespace WWWisky.inventory.unity.gui
         {
             CraftingStationGUI.Assign(craftingStation);
             WindowGUI.Show();
+
+            WindowContainerGUI.Current?.Add(WindowGUI);
         }
 
         /// <summary>
@@ -66,6 +67,8 @@ namespace WWWisky.inventory.unity.gui
         public virtual void CloseCraftingStationGUI()
         {
             WindowGUI.Hide();
+
+            WindowContainerGUI.Current?.Remove(WindowGUI);
         }
     }
 }

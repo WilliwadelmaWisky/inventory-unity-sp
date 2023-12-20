@@ -1,6 +1,4 @@
-﻿using WWWisky.inventory.core.components;
-
-namespace WWWisky.inventory.core
+﻿namespace WWWisky.inventory.core
 {
     /// <summary>
     /// 

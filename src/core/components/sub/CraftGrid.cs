@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WWWisky.inventory.core.components.sub
+namespace WWWisky.inventory.core
 {
     /// <summary>
     /// 

@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Pool;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.components.sub;
-using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -17,7 +15,7 @@ namespace WWWisky.inventory.unity.gui
         [SerializeField] private ListGUI SlotList;
         [Header("Optional")]
         [SerializeField] private SlotSortGUI SlotSort;
-        [SerializeField] private SlotSelectorGUI SlotSelector;
+        [SerializeField] private SlotClickHandlerGUI SlotClickHandler;
 
         private IInventory _inventory;
         private IObjectPool<IElementGUI> _slotPool;
@@ -72,7 +70,7 @@ namespace WWWisky.inventory.unity.gui
         {
             SlotGUI slotGUI = (SlotGUI)_slotPool.Get();
             SlotList.Add(slot, slotGUI);
-            slotGUI.OnClicked += () => OnSlotClicked(slotGUI);
+            slotGUI.OnClicked += (clickButton) => OnSlotClicked(slotGUI, clickButton);
             slotGUI.transform.SetSiblingIndex(index);
         }
 
@@ -81,13 +79,12 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         /// <param name="slotGUI"></param>
-        private void OnSlotClicked(SlotGUI slotGUI)
+        private void OnSlotClicked(SlotGUI slotGUI, PointerEventData.InputButton clickButton)
         {
             if (slotGUI == null || slotGUI.Slot.IsEmpty)
                 return;
 
-            Debug.Log("Select: " + slotGUI.Slot.Item.Name);
-            SlotSelector?.Select(slotGUI);
+            SlotClickHandler?.OnSlotClicked(slotGUI, clickButton);
         }
 
 

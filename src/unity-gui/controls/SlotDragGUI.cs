@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -8,10 +7,11 @@ namespace WWWisky.inventory.unity.gui
     /// 
     /// </summary>
     [RequireComponent(typeof(SlotGUI))]
-    public class DraggableSlotGUI : MonoBehaviour, IDraggable
+    public class SlotDragGUI : MonoBehaviour, IDraggable
     {
         [SerializeField] private PointerEventData.InputButton DragButton = PointerEventData.InputButton.Left;
 
+        private RectTransform _rectTransform;
         private SlotGUI _slotGUI;
         private bool _isDragging;
 
@@ -21,6 +21,7 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         void Awake()
         {
+            _rectTransform = GetComponent<RectTransform>();
             _slotGUI = GetComponent<SlotGUI>();
             _isDragging = false;
         }
@@ -37,6 +38,9 @@ namespace WWWisky.inventory.unity.gui
 
             _isDragging = true;
             Debug.Log("OnBeginDrag");
+
+            Sprite icon = IconRegistry.Current.Get(_slotGUI.Slot.Item.ID);
+            SlotDragVisualGUI.Current.Show(transform.position, _rectTransform.sizeDelta, icon);
         }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace WWWisky.inventory.unity.gui
 
             _isDragging = false;
             Debug.Log("OnEndDrag");
+
+            SlotDragVisualGUI.Current.Hide();
         }
 
 
@@ -63,6 +69,7 @@ namespace WWWisky.inventory.unity.gui
                 return;
 
             Debug.Log("OnDrag");
+            SlotDragVisualGUI.Current.Move(eventData.delta);
         }
 
 

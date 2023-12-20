@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.components;
 
 namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 
     /// </summary>
-    [RequireComponent(typeof(InventoryGUI), typeof(WindowGUI))]
-    public class InventoryControllerGUI : MonoBehaviour
+    [RequireComponent(typeof(VendorGUI), typeof(WindowGUI))]
+    public class VendorControllerGUI : MonoBehaviour
     {
         [Header("Optional")]
         [SerializeField] private Button CloseButton;
 
-        protected InventoryGUI InventoryGUI { get; private set; }
+        protected VendorGUI VendorGUI { get; private set; }
         protected WindowGUI WindowGUI { get; private set; }
 
 
@@ -23,12 +22,13 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         protected virtual void Awake()
         {
-            InventoryGUI = GetComponent<InventoryGUI>();
+            VendorGUI = GetComponent<VendorGUI>();
             WindowGUI = GetComponent<WindowGUI>();
 
-            CloseButton?.onClick.AddListener(CloseInventoryGUI);
+            CloseButton?.onClick.AddListener(CloseVendorGUI);
             EventSystem.Current.AddListener(OnEventReceived);
         }
+
 
         /// <summary>
         /// 
@@ -45,29 +45,31 @@ namespace WWWisky.inventory.unity.gui
         /// <param name="e"></param>
         protected virtual void OnEventReceived(IEvent e)
         {
-            if (e is Event_StorageAccess storageAccessEvent)
-            {
-                InventoryGUI.Assign(storageAccessEvent.Accessor.GetInventory());
-            }
+            if (e is Event_VendorAccess vendorAccessEvent)
+                OpenVendorGUI(vendorAccessEvent.Vendor);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="inventory"></param>
-        public virtual void OpenInventoryGUI(IInventory inventory)
+        /// <param name="vendor"></param>
+        public virtual void OpenVendorGUI(IVendor vendor)
         {
-            InventoryGUI.Assign(inventory);
+            VendorGUI.Assign(vendor);
             WindowGUI.Show();
+
+            WindowContainerGUI.Current?.Add(WindowGUI);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void CloseInventoryGUI()
+        public virtual void CloseVendorGUI()
         {
             WindowGUI.Hide();
+
+            WindowContainerGUI.Current?.Remove(WindowGUI);
         }
     }
 }

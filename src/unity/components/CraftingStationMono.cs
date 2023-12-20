@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.recipes;
+using WWWisky.inventory.core;
 
 namespace WWWisky.inventory.unity
 {

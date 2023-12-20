@@ -1,16 +1,17 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using WWWisky.inventory.core.components.sub;
+using WWWisky.inventory.core;
 
-namespace WWWisky.inventory.unity.gui.controls
+namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 
     /// </summary>
     public abstract class SlotGUI : MonoBehaviour, IElementGUI, IPointerClickHandler
     {
-        public event Action OnClicked;
+        public delegate void ClickDelegate(PointerEventData.InputButton clickButton);
+        public event ClickDelegate OnClicked;
 
         public ISlot Slot { get; private set; }
 
@@ -70,7 +71,10 @@ namespace WWWisky.inventory.unity.gui.controls
         /// <param name="eventData"></param>
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnClicked?.Invoke();
+            if (Slot == null)
+                return;
+
+            OnClicked?.Invoke(eventData.button);
         }
     }
 }

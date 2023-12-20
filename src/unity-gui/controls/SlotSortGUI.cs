@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using WWWisky.inventory.core.components.sub;
-using WWWisky.inventory.core.items;
+using WWWisky.inventory.core;
 
 namespace WWWisky.inventory.unity.gui
 {

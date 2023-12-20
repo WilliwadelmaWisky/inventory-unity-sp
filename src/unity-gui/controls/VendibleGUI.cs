@@ -3,8 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using WWWisky.inventory.core.items;
-using WWWisky.inventory.unity.gui.controls;
+using WWWisky.inventory.core;
 
 namespace WWWisky.inventory.unity.gui
 {

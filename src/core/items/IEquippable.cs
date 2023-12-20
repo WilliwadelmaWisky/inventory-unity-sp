@@ -1,5 +1,5 @@
-﻿namespace WWWisky.inventory.core.items
-{
+﻿namespace WWWisky.inventory.core
+{ 
     /// <summary>
     /// 
     /// </summary>

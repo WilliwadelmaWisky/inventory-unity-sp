@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.core
 {

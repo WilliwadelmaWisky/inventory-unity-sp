@@ -1,10 +1,9 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Pool;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.components.sub;
-using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -73,7 +72,7 @@ namespace WWWisky.inventory.unity.gui
         {
             SlotGUI slotGUI = (SlotGUI)_slotPool.Get();
             SlotList.Add(slot, slotGUI);
-            slotGUI.OnClicked += () => OnSlotClicked(slotGUI);
+            slotGUI.OnClicked += (clickButton) => OnSlotClicked(slotGUI, clickButton);
             slotGUI.transform.SetSiblingIndex(index);
         }
 
@@ -82,7 +81,7 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         /// <param name="slotGUI"></param>
-        private void OnSlotClicked(SlotGUI slotGUI)
+        private void OnSlotClicked(SlotGUI slotGUI, PointerEventData.InputButton clickButton)
         {
             if (slotGUI == null || slotGUI.Slot.IsEmpty)
                 return;

@@ -1,8 +1,4 @@
-﻿using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.components.sub;
-using WWWisky.inventory.core.items;
-
-namespace WWWisky.inventory.core.recipes
+﻿namespace WWWisky.inventory.core
 {
     /// <summary>
     /// 

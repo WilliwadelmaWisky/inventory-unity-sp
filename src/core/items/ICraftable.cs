@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WWWisky.inventory.core.items
+namespace WWWisky.inventory.core
 {
     public interface ICraftable : ICloneable
     {

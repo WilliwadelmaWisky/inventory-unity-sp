@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui
 {

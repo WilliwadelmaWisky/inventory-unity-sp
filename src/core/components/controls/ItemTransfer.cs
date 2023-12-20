@@ -1,7 +1,4 @@
-﻿using WWWisky.inventory.core.components.sub;
-using WWWisky.inventory.core.util;
-
-namespace WWWisky.inventory.core.components.controls
+﻿namespace WWWisky.inventory.core
 {
     /// <summary>
     /// 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WWWisky.inventory.unity.gui.controls
+namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 
@@ -22,6 +22,7 @@ namespace WWWisky.inventory.unity.gui.controls
         void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
+            _canvasGroup.blocksRaycasts = true;
             _canvasGroup.alpha = 1;
         }
 
@@ -31,7 +32,6 @@ namespace WWWisky.inventory.unity.gui.controls
         /// </summary>
         protected override void OnSlotUpdated()
         {
-            _canvasGroup.blocksRaycasts = !Slot.IsEmpty;
             IconImage.gameObject.SetActive(!Slot.IsEmpty);
             AmountText.gameObject.SetActive(false);
             if (Slot.IsEmpty)

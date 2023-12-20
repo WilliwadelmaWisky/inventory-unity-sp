@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.components.controls;
-using WWWisky.inventory.core.items;
-using WWWisky.inventory.core.recipes;
 
 namespace WWWisky.inventory.unity
 {
     /// <summary>
     /// 
     /// </summary>
-    public class InventoryMono : MonoBehaviour, ICrafter, ISupportItemRequirements, ICustomer
+    public class InventoryMono : MonoBehaviour, ICrafter, ISupportItemRequirements, ICustomer, IItemHolder
     {
         [SerializeField, Min(2)] private int SlotCount = 30;
         [SerializeField] private RecipeSO[] Recipes;

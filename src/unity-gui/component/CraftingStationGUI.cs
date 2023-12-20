@@ -2,9 +2,6 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.recipes;
-using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui
 {

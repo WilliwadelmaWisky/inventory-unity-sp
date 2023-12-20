@@ -7,13 +7,13 @@ namespace WWWisky.inventory.unity.gui
     /// <summary>
     /// 
     /// </summary>
-    [RequireComponent(typeof(StorageGUI), typeof(WindowGUI))]
-    public class StorageControllerGUI : MonoBehaviour
+    [RequireComponent(typeof(InventoryGUI), typeof(WindowGUI))]
+    public class InventoryControllerGUI : MonoBehaviour
     {
         [Header("Optional")]
         [SerializeField] private Button CloseButton;
 
-        protected StorageGUI StorageGUI { get; private set; }
+        protected InventoryGUI InventoryGUI { get; private set; }
         protected WindowGUI WindowGUI { get; private set; }
 
 
@@ -22,10 +22,10 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         protected virtual void Awake()
         {
-            StorageGUI = GetComponent<StorageGUI>();
+            InventoryGUI = GetComponent<InventoryGUI>();
             WindowGUI = GetComponent<WindowGUI>();
 
-            CloseButton?.onClick.AddListener(CloseStorageGUI);
+            CloseButton?.onClick.AddListener(CloseInventoryGUI);
             EventSystem.Current.AddListener(OnEventReceived);
         }
 
@@ -45,26 +45,39 @@ namespace WWWisky.inventory.unity.gui
         protected virtual void OnEventReceived(IEvent e)
         {
             if (e is Event_StorageAccess storageAccessEvent)
-                OpenStorageGUI(storageAccessEvent.Storage);
+            {
+                OpenInventoryGUI(storageAccessEvent.Accessor.GetInventory());
+                return;
+            }
+
+            if (e is Event_CraftingStationAccess craftingStationAccessEvent)
+            {
+                if (craftingStationAccessEvent.Crafter is IItemHolder itemHolder)
+                    OpenInventoryGUI(itemHolder.GetInventory());
+            }
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="storage"></param>
-        public virtual void OpenStorageGUI(IStorage storage)
+        /// <param name="inventory"></param>
+        public virtual void OpenInventoryGUI(IInventory inventory)
         {
-            StorageGUI.Assign(storage);
+            InventoryGUI.Assign(inventory);
             WindowGUI.Show();
+
+            WindowContainerGUI.Current?.Add(WindowGUI);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void CloseStorageGUI()
+        public virtual void CloseInventoryGUI()
         {
             WindowGUI.Hide();
+
+            WindowContainerGUI.Current?.Remove(WindowGUI);
         }
     }
 }

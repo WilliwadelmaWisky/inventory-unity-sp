@@ -3,8 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using WWWisky.inventory.core;
-using WWWisky.inventory.core.items;
-using WWWisky.inventory.unity.gui.controls;
 
 namespace WWWisky.inventory.unity.gui
 {

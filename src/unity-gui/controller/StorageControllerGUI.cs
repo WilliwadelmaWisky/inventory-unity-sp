@@ -7,13 +7,13 @@ namespace WWWisky.inventory.unity.gui
     /// <summary>
     /// 
     /// </summary>
-    [RequireComponent(typeof(VendorGUI), typeof(WindowGUI))]
-    public class VendorControllerGUI : MonoBehaviour
+    [RequireComponent(typeof(StorageGUI), typeof(WindowGUI))]
+    public class StorageControllerGUI : MonoBehaviour
     {
         [Header("Optional")]
         [SerializeField] private Button CloseButton;
 
-        protected VendorGUI VendorGUI { get; private set; }
+        protected StorageGUI StorageGUI { get; private set; }
         protected WindowGUI WindowGUI { get; private set; }
 
 
@@ -22,13 +22,12 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         protected virtual void Awake()
         {
-            VendorGUI = GetComponent<VendorGUI>();
+            StorageGUI = GetComponent<StorageGUI>();
             WindowGUI = GetComponent<WindowGUI>();
 
-            CloseButton?.onClick.AddListener(CloseVendorGUI);
+            CloseButton?.onClick.AddListener(CloseStorageGUI);
             EventSystem.Current.AddListener(OnEventReceived);
         }
-
 
         /// <summary>
         /// 
@@ -45,27 +44,31 @@ namespace WWWisky.inventory.unity.gui
         /// <param name="e"></param>
         protected virtual void OnEventReceived(IEvent e)
         {
-            if (e is Event_VendorAccess vendorAccessEvent)
-                OpenVendorGUI(vendorAccessEvent.Vendor);
+            if (e is Event_StorageAccess storageAccessEvent)
+                OpenStorageGUI(storageAccessEvent.Storage);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="vendor"></param>
-        public virtual void OpenVendorGUI(IVendor vendor)
+        /// <param name="storage"></param>
+        public virtual void OpenStorageGUI(IStorage storage)
         {
-            VendorGUI.Assign(vendor);
+            StorageGUI.Assign(storage);
             WindowGUI.Show();
+
+            WindowContainerGUI.Current?.Add(WindowGUI);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public virtual void CloseVendorGUI()
+        public virtual void CloseStorageGUI()
         {
             WindowGUI.Hide();
+
+            WindowContainerGUI.Current?.Remove(WindowGUI);
         }
     }
 }

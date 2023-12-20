@@ -1,8 +1,6 @@
-﻿using WWWisky.inventory.core.util;
-using WWWisky.inventory.core.items;
-using System;
+﻿using System;
 
-namespace WWWisky.inventory.core.components.sub
+namespace WWWisky.inventory.core
 {
     /// <summary>
     /// 

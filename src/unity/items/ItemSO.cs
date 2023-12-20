@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using WWWisky.inventory.core.items;
+using WWWisky.inventory.core;
 
 namespace WWWisky.inventory.unity
 {

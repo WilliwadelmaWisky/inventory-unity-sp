@@ -2,9 +2,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using WWWisky.inventory.core.recipes;
+using WWWisky.inventory.core;
 
-namespace WWWisky.inventory.unity.gui.controls
+namespace WWWisky.inventory.unity.gui
 {
     /// <summary>
     /// 

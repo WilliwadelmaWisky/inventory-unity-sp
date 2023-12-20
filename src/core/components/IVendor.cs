@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using WWWisky.inventory.core.components;
-using WWWisky.inventory.core.items;
 
 namespace WWWisky.inventory.core
 {
