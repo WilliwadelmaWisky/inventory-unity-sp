@@ -23,5 +23,17 @@ namespace WWWisky.inventory.core
                 index++;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="action"></param>
+        public static void ForEach<T>(this IEnumerable<T> query, Action<T> action)
+        {
+            foreach (T item in query)
+                action(item);
+        }
     }
 }

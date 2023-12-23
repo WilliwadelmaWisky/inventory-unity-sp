@@ -87,7 +87,7 @@ namespace WWWisky.inventory.unity.gui
                 return;
 
             Debug.Log("Transfer: " + slotGUI.Slot.Item.Name);
-
+            
         }
 
 

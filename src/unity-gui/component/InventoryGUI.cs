@@ -11,13 +11,15 @@ namespace WWWisky.inventory.unity.gui
     /// </summary>
     public class InventoryGUI : MonoBehaviour
     {
+        public delegate void SlotClickDelegate(SlotGUI slotGUI, PointerEventData.InputButton clickButton);
+
         [SerializeField] private SlotGUI SlotPrefab;
         [SerializeField] private ListGUI SlotList;
         [Header("Optional")]
         [SerializeField] private SlotSortGUI SlotSort;
-        [SerializeField] private SlotClickHandlerGUI SlotClickHandler;
 
         private IInventory _inventory;
+        private SlotClickDelegate _onSlotClicked;
         private IObjectPool<IElementGUI> _slotPool;
 
 
@@ -34,9 +36,11 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         /// <param name="inventory"></param>
-        public void Assign(IInventory inventory)
+        /// <param name="onSlotClicked"></param>
+        public void Assign(IInventory inventory, SlotClickDelegate onSlotClicked)
         {
             _inventory = inventory;
+            _onSlotClicked = onSlotClicked;
 
             Refresh();
         }
@@ -84,7 +88,8 @@ namespace WWWisky.inventory.unity.gui
             if (slotGUI == null || slotGUI.Slot.IsEmpty)
                 return;
 
-            SlotClickHandler?.OnSlotClicked(slotGUI, clickButton);
+            Debug.Log("Click: " + slotGUI.Slot.Item.Name);
+            _onSlotClicked?.Invoke(slotGUI, clickButton);
         }
 
 

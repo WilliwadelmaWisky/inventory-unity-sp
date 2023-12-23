@@ -28,6 +28,7 @@ namespace WWWisky.inventory.unity.examples
     public class Item_Apple : Item, IStackable, IUseable, ICraftable, IVendible
     {
         public int StackSize { get; } = 5;
+        public bool IsExpendedOnUse { get; } = true;
         public float Cost { get; }
 
 

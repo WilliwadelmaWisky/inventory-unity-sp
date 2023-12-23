@@ -5,7 +5,7 @@ namespace WWWisky.inventory.core
     /// <summary>
     /// 
     /// </summary>
-    public class Wallet
+    public class Wallet : IWallet<int>
     {
         public int Money { get; private set; }
 
@@ -17,6 +17,9 @@ namespace WWWisky.inventory.core
         {
             Money = 0;
         }
+
+
+        public int GetValue() => Money;
 
 
         /// <summary>

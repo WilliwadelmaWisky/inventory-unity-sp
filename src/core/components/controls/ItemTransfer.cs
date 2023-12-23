@@ -53,6 +53,7 @@
 
             RemoveItemResult clearResult = b.Clear();
             b.Add(a.Item, a.Amount);
+            a.Clear();
             a.Add(clearResult.Item, clearResult.Amount);
             return true;
         }

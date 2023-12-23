@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using WWWisky.inventory.core;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -39,6 +40,7 @@ namespace WWWisky.inventory.unity.gui
             _isDragging = true;
             Debug.Log("OnBeginDrag");
 
+            SlotDragOperationGUI.Current.Create(_slotGUI);
             Sprite icon = IconRegistry.Current.Get(_slotGUI.Slot.Item.ID);
             SlotDragVisualGUI.Current.Show(transform.position, _rectTransform.sizeDelta, icon);
         }
@@ -55,6 +57,7 @@ namespace WWWisky.inventory.unity.gui
             _isDragging = false;
             Debug.Log("OnEndDrag");
 
+            SlotDragOperationGUI.Current.Destroy();
             SlotDragVisualGUI.Current.Hide();
         }
 
@@ -79,7 +82,13 @@ namespace WWWisky.inventory.unity.gui
         /// <param name="eventData"></param>
         public void OnDrop(PointerEventData eventData)
         {
+            if (SlotDragOperationGUI.Current.SlotGUI == null || SlotDragOperationGUI.Current.SlotGUI == _slotGUI)
+                return;
+
             Debug.Log("OnDrop");
+
+            ItemTransfer itemTransfer = new ItemTransfer();
+            itemTransfer.Transfer(SlotDragOperationGUI.Current.SlotGUI.Slot, _slotGUI.Slot);
         }
     }
 }

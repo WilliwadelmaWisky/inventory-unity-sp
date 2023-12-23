@@ -30,6 +30,7 @@ namespace WWWisky.inventory.unity.examples
     /// </summary>
     public class Item_Sword : Item, IUseable, IVendible, ICraftable
     {
+        public bool IsExpendedOnUse { get; } = false;
         public float Cost { get; }
 
 
