@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Pool;
 using WWWisky.inventory.core;
 
@@ -11,7 +10,7 @@ namespace WWWisky.inventory.unity.gui
     /// </summary>
     public class InventoryGUI : MonoBehaviour
     {
-        public delegate void SlotClickDelegate(SlotGUI slotGUI, PointerEventData.InputButton clickButton);
+        public event Action<SlotGUI> OnSlotCreated;
 
         [SerializeField] private SlotGUI SlotPrefab;
         [SerializeField] private ListGUI SlotList;
@@ -19,7 +18,6 @@ namespace WWWisky.inventory.unity.gui
         [SerializeField] private SlotSortGUI SlotSort;
 
         private IInventory _inventory;
-        private SlotClickDelegate _onSlotClicked;
         private IObjectPool<IElementGUI> _slotPool;
 
 
@@ -37,10 +35,9 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         /// <param name="inventory"></param>
         /// <param name="onSlotClicked"></param>
-        public void Assign(IInventory inventory, SlotClickDelegate onSlotClicked)
+        public virtual void Assign(IInventory inventory)
         {
             _inventory = inventory;
-            _onSlotClicked = onSlotClicked;
 
             Refresh();
         }
@@ -61,7 +58,7 @@ namespace WWWisky.inventory.unity.gui
             _inventory.ForEach((slot, index) => 
             {
                 if (match(slot))
-                    AddSlot(slot, index);
+                    CreateSlot(slot, index);
             });
         }
 
@@ -70,26 +67,13 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         /// <param name="slot"></param>
-        private void AddSlot(ISlot slot, int index)
+        private void CreateSlot(ISlot slot, int index)
         {
             SlotGUI slotGUI = (SlotGUI)_slotPool.Get();
             SlotList.Add(slot, slotGUI);
-            slotGUI.OnClicked += (clickButton) => OnSlotClicked(slotGUI, clickButton);
             slotGUI.transform.SetSiblingIndex(index);
-        }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="slotGUI"></param>
-        private void OnSlotClicked(SlotGUI slotGUI, PointerEventData.InputButton clickButton)
-        {
-            if (slotGUI == null || slotGUI.Slot.IsEmpty)
-                return;
-
-            Debug.Log("Click: " + slotGUI.Slot.Item.Name);
-            _onSlotClicked?.Invoke(slotGUI, clickButton);
+            OnSlotCreated?.Invoke(slotGUI);
         }
 
 

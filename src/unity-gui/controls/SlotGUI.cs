@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using WWWisky.inventory.core;
 
 namespace WWWisky.inventory.unity.gui
@@ -7,11 +6,8 @@ namespace WWWisky.inventory.unity.gui
     /// <summary>
     /// 
     /// </summary>
-    public abstract class SlotGUI : MonoBehaviour, IElementGUI, IPointerClickHandler
+    public abstract class SlotGUI : MonoBehaviour, IElementGUI
     {
-        public delegate void ClickDelegate(PointerEventData.InputButton clickButton);
-        public event ClickDelegate OnClicked;
-
         public ISlot Slot { get; private set; }
 
 
@@ -42,7 +38,6 @@ namespace WWWisky.inventory.unity.gui
 
             Slot.OnUpdated -= OnSlotUpdated;
             Slot = null;
-            OnClicked = null;
 
             gameObject.SetActive(false);
         }
@@ -62,18 +57,5 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         protected abstract void OnSlotUpdated();
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="eventData"></param>
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (Slot == null)
-                return;
-
-            OnClicked?.Invoke(eventData.button);
-        }
     }
 }

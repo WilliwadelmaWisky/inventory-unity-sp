@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using UnityEngine;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -8,11 +8,9 @@ namespace WWWisky.inventory.unity.gui
     /// </summary>
     public class SlotSelectorGUI : MonoBehaviour
     {
-        [Header("Optional")]
-        [SerializeField] private Button UseButton;
-        [SerializeField] private Button DropButton;
-        [SerializeField] private Button TransferButton;
+        public event Action<SlotGUI> OnSelectionChanged;
 
+        private InventoryGUI _inventoryGUI;
         private SlotGUI _slotGUI;
 
 
@@ -21,7 +19,52 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         void Awake()
         {
-            
+            _inventoryGUI = GetComponent<InventoryGUI>();
+            _inventoryGUI.OnSlotCreated += OnSlotCreated;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void OnDestroy()
+        {
+            if (_inventoryGUI == null)
+                return;
+
+            _inventoryGUI.OnSlotCreated -= OnSlotCreated;   
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void Update()
+        {
+            if (_slotGUI == null)
+                return;
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("Use/Transfer");
+            }
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                Debug.Log("Drop");
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="slotGUI"></param>
+        private void OnSlotCreated(SlotGUI slotGUI)
+        {
+            if (!slotGUI.TryGetComponent(out SlotSelectGUI selectGUI))
+                return;
+
+            selectGUI.SetOnSelect(() => Select(slotGUI));
+            selectGUI.SetOnDeselect(() => Select(null));
         }
 
 
@@ -35,6 +78,7 @@ namespace WWWisky.inventory.unity.gui
                 return;
 
             _slotGUI = slotGUI;
+            Debug.Log("Select: " + slotGUI);
         }
     }
 }

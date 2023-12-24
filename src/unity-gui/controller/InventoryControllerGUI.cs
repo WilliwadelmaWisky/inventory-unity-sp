@@ -47,14 +47,7 @@ namespace WWWisky.inventory.unity.gui
         {
             if (e is Event_StorageAccess storageAccessEvent)
             {
-                OpenInventoryGUI(storageAccessEvent.Accessor.GetInventory(), (slotGUI, clickButton) =>
-                {
-                    if (clickButton == UnityEngine.EventSystems.PointerEventData.InputButton.Right)
-                    {
-                        ItemTransfer itemTransfer = new ItemTransfer();
-                        itemTransfer.Transfer(slotGUI.Slot, storageAccessEvent.Storage);
-                    }
-                });
+                OpenInventoryGUI(storageAccessEvent.Accessor.GetInventory());
                 return;
             }
 
@@ -62,14 +55,7 @@ namespace WWWisky.inventory.unity.gui
             {
                 if (craftingStationAccessEvent.Crafter is IItemHolder itemHolder)
                 {
-                    OpenInventoryGUI(itemHolder.GetInventory(), (slotGUI, clickButton) =>
-                    {
-                        if (clickButton == UnityEngine.EventSystems.PointerEventData.InputButton.Right)
-                        {
-                            ItemUser itemUser = new ItemUser(itemHolder);
-                            itemUser.Use(slotGUI.Slot);
-                        }
-                    });
+                    OpenInventoryGUI(itemHolder.GetInventory());
                 }
             }
         }
@@ -79,9 +65,9 @@ namespace WWWisky.inventory.unity.gui
         /// 
         /// </summary>
         /// <param name="inventory"></param>
-        public virtual void OpenInventoryGUI(IInventory inventory, SlotClickDelegate onSlotClicked)
+        public virtual void OpenInventoryGUI(IInventory inventory)
         {
-            InventoryGUI.Assign(inventory, onSlotClicked);
+            InventoryGUI.Assign(inventory);
             WindowGUI.Show();
 
             WindowContainerGUI.Current?.Add(WindowGUI);
@@ -99,7 +85,7 @@ namespace WWWisky.inventory.unity.gui
 
 
 
-        private void StorageMenu(object target, SlotGUI slotGUI, IStorage storage)
+        private Menu StorageMenu(object target, SlotGUI slotGUI, IStorage storage)
         {
             Menu menu = new Menu();
 
@@ -111,7 +97,7 @@ namespace WWWisky.inventory.unity.gui
 
             menu.Add(new Menu.MenuItem("Cancel", () => { }));
 
-            ActionMenuGUI.Current.Show(menu, slotGUI.transform.position);
+            return menu;
         }
         private void InventoryMenu(object target, SlotGUI slotGUI)
         {
@@ -124,8 +110,6 @@ namespace WWWisky.inventory.unity.gui
             menu.Add(new Menu.MenuItem("Drop [O]", () => itemDropper.Drop(slotGUI.Slot)));
 
             menu.Add(new Menu.MenuItem("Cancel", () => { }));
-
-            ActionMenuGUI.Current.Show(menu, slotGUI.transform.position);
         }
     }
 }
