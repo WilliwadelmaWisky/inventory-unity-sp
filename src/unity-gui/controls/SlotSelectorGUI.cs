@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -8,10 +7,9 @@ namespace WWWisky.inventory.unity.gui
     /// </summary>
     public class SlotSelectorGUI : MonoBehaviour
     {
-        public event Action<SlotGUI> OnSelectionChanged;
-
         private InventoryGUI _inventoryGUI;
         private SlotGUI _slotGUI;
+        private ActionMenuMono _actionMenu;
 
 
         /// <summary>
@@ -38,34 +36,18 @@ namespace WWWisky.inventory.unity.gui
         /// <summary>
         /// 
         /// </summary>
-        void Update()
-        {
-            if (_slotGUI == null)
-                return;
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("Use/Transfer");
-            }
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                Debug.Log("Drop");
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="slotGUI"></param>
         private void OnSlotCreated(SlotGUI slotGUI)
         {
-            if (!slotGUI.TryGetComponent(out SlotSelectGUI selectGUI))
+            if (!slotGUI.TryGetComponent(out SlotActionGUI selectGUI))
                 return;
 
             selectGUI.SetOnSelect(() => Select(slotGUI));
-            selectGUI.SetOnDeselect(() => Select(null));
+            selectGUI.SetOnDeselect(() => Deselect());
         }
+
+
+        public void SetActionMenu(ActionMenuMono actionMenu) => _actionMenu = actionMenu;
 
 
         /// <summary>
@@ -74,11 +56,20 @@ namespace WWWisky.inventory.unity.gui
         /// <param name="slotGUI"></param>
         public void Select(SlotGUI slotGUI)
         {
-            if (_slotGUI == slotGUI)
+            if (slotGUI == null || _slotGUI == slotGUI)
                 return;
 
             _slotGUI = slotGUI;
-            Debug.Log("Select: " + slotGUI);
+            _actionMenu.SetSlot(slotGUI.Slot);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Deselect()
+        {
+            _slotGUI = null;
+            _actionMenu.SetSlot(null);
         }
     }
 }

@@ -10,9 +10,7 @@ namespace WWWisky.inventory.unity.examples
     {
         [SerializeField] private RecipeSO[] Recipes;
 
-        public int Tier { get; private set; }
-
-        private CraftingStation _craftingStation;
+        private TieredCraftingStation _craftingStation;
         private CraftQueue _craftQueue;
         private Inventory _inventory;
         private BurnableSlot _fuelSlot;
@@ -24,10 +22,9 @@ namespace WWWisky.inventory.unity.examples
         /// </summary>
         void Awake()
         {
-            _craftingStation = new CraftingStation("Furnace");
+            _craftingStation = new TieredCraftingStation("Furnace");
             _craftQueue = new CraftQueue(OnRecipeCrafted);
             _inventory = new Inventory();
-            Tier = 1;
 
             foreach (RecipeSO recipeSO in Recipes)
             {

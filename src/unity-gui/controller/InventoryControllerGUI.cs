@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using WWWisky.inventory.core;
-using static WWWisky.inventory.unity.gui.InventoryGUI;
 
 namespace WWWisky.inventory.unity.gui
 {
@@ -17,6 +16,9 @@ namespace WWWisky.inventory.unity.gui
         protected InventoryGUI InventoryGUI { get; private set; }
         protected WindowGUI WindowGUI { get; private set; }
 
+        private ActionMenuMono _actionMenu;
+        private SlotSelectorGUI _slotSelector;
+
 
         /// <summary>
         /// 
@@ -25,6 +27,7 @@ namespace WWWisky.inventory.unity.gui
         {
             InventoryGUI = GetComponent<InventoryGUI>();
             WindowGUI = GetComponent<WindowGUI>();
+            _slotSelector = GetComponent<SlotSelectorGUI>();
 
             CloseButton?.onClick.AddListener(CloseInventoryGUI);
             EventSystem.Current.AddListener(OnEventReceived);
@@ -47,6 +50,10 @@ namespace WWWisky.inventory.unity.gui
         {
             if (e is Event_StorageAccess storageAccessEvent)
             {
+                _actionMenu = ((MonoBehaviour)storageAccessEvent.Accessor).GetComponent<ActionMenuMono>();
+                _actionMenu.SetTransferInventory(storageAccessEvent.Storage);
+                _slotSelector.SetActionMenu(_actionMenu);
+
                 OpenInventoryGUI(storageAccessEvent.Accessor.GetInventory());
                 return;
             }
@@ -55,6 +62,10 @@ namespace WWWisky.inventory.unity.gui
             {
                 if (craftingStationAccessEvent.Crafter is IItemHolder itemHolder)
                 {
+                    _actionMenu = ((MonoBehaviour)itemHolder).GetComponent<ActionMenuMono>();
+                    _actionMenu.SetTransferInventory(null);
+                    _slotSelector.SetActionMenu(_actionMenu);
+
                     OpenInventoryGUI(itemHolder.GetInventory());
                 }
             }
@@ -78,38 +89,10 @@ namespace WWWisky.inventory.unity.gui
         /// </summary>
         public virtual void CloseInventoryGUI()
         {
+            _actionMenu.Clear();
             WindowGUI.Hide();
 
             WindowContainerGUI.Current?.Remove(WindowGUI);
-        }
-
-
-
-        private Menu StorageMenu(object target, SlotGUI slotGUI, IStorage storage)
-        {
-            Menu menu = new Menu();
-
-            ItemTransfer itemTransfer = new ItemTransfer();
-            menu.Add(new Menu.MenuItem("Transfer [E]", () => itemTransfer.Transfer(slotGUI.Slot, storage)));
-
-            ItemDropper itemDropper = new ItemDropper(target);
-            menu.Add(new Menu.MenuItem("Drop [O]", () => itemDropper.Drop(slotGUI.Slot)));
-
-            menu.Add(new Menu.MenuItem("Cancel", () => { }));
-
-            return menu;
-        }
-        private void InventoryMenu(object target, SlotGUI slotGUI)
-        {
-            Menu menu = new Menu();
-
-            ItemUser itemUser = new ItemUser(target);
-            menu.Add(new Menu.MenuItem("Use [E]", () => itemUser.Use(slotGUI.Slot)));
-
-            ItemDropper itemDropper = new ItemDropper(target);
-            menu.Add(new Menu.MenuItem("Drop [O]", () => itemDropper.Drop(slotGUI.Slot)));
-
-            menu.Add(new Menu.MenuItem("Cancel", () => { }));
         }
     }
 }

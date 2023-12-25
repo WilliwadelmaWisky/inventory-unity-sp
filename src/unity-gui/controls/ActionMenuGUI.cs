@@ -9,6 +9,8 @@ namespace WWWisky.inventory.unity.gui
     [RequireComponent(typeof(CanvasGroup))]
     public class ActionMenuGUI : MonoBehaviour
     {
+        [SerializeField] private GameObject ButtonPrefab;
+
         public static ActionMenuGUI Current { get; private set; }
 
         private RectTransform _rectTransform;
@@ -35,13 +37,13 @@ namespace WWWisky.inventory.unity.gui
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="menu"></param>
-        public void Show(Menu menu, Vector3 position)
+        /// <param name="actionMenu"></param>
+        public void Show(ActionMenu actionMenu, Vector3 position)
         {
-            if (menu == null)
+            if (actionMenu == null)
                 return;
 
-            menu.ForEach((menuItem, index) =>
+            actionMenu.ForEach((menuItem, index) =>
             {
                 Debug.Log("ActionMenuGUI - create menuitem not implemented: " + menuItem.Name);
             });

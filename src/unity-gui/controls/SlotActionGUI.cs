@@ -8,7 +8,7 @@ namespace WWWisky.inventory.unity.gui
     /// 
     /// </summary>
     [RequireComponent(typeof(SlotGUI))]
-    public class SlotSelectGUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+    public class SlotActionGUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private SlotGUI _slotGUI;
         private Action _onSelect;

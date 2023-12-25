@@ -15,9 +15,6 @@ namespace WWWisky.inventory.unity
         private CraftingStation _craftingStation;
         private Vendor _vendor;
         private Equipment _equipment;
-        private ItemUser _itemUser;
-        private ItemDropper _itemDropper;
-        private ItemTransfer _itemTransfer;
 
 
         /// <summary>
@@ -29,10 +26,6 @@ namespace WWWisky.inventory.unity
             _craftingStation = new CraftingStation("Inventory");
             _equipment = new Equipment();
             _vendor = new Vendor("Inventory");
-
-            _itemUser = new ItemUser(gameObject);
-            _itemDropper = new ItemDropper(gameObject);
-            _itemTransfer = new ItemTransfer();
 
             foreach (RecipeSO recipeSO in Recipes)
             {
