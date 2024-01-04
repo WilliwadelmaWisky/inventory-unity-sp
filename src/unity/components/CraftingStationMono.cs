@@ -8,24 +8,41 @@ namespace WWWisky.inventory.unity
     /// </summary>
     public class CraftingStationMono : MonoBehaviour
     {
-        [SerializeField] private string Name;
+        [SerializeField] protected string Name;
         [SerializeField] private RecipeSO[] Recipes; 
 
-        private CraftingStation _craftingStation;
+        public ICraftingStation CraftingStation { get; private set; }
 
 
         /// <summary>
         /// 
         /// </summary>
-        void Awake()
+        protected virtual void Awake()
         {
-            _craftingStation = new CraftingStation(Name);
+            CraftingStation = Create();
 
             foreach (RecipeSO recipeSO in Recipes)
             {
                 IRecipe recipe = recipeSO.Create();
-                _craftingStation.Add(recipe);
+                CraftingStation.Add(recipe);
             }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ICraftingStation Create() => new CraftingStation(Name);
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="crafter"></param>
+        public void Access(ICrafter crafter)
+        {
+            CraftingStation.Access(crafter);
         }
     }
 }

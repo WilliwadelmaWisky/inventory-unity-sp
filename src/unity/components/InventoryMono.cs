@@ -6,106 +6,33 @@ namespace WWWisky.inventory.unity
     /// <summary>
     /// 
     /// </summary>
-    public class InventoryMono : MonoBehaviour, ICrafter, ISupportItemRequirements, ICustomer, IItemHolder
+    public class InventoryMono : MonoBehaviour
     {
-        [SerializeField, Min(2)] private int SlotCount = 30;
-        [SerializeField] private RecipeSO[] Recipes;
+        [SerializeField, Min(2)] protected int SlotCount = 30;
+        [SerializeField] private ItemSO[] Items;
 
-        private Inventory _inventory;
-        private CraftingStation _craftingStation;
-        private Vendor _vendor;
-        private Equipment _equipment;
+        public IInventory Inventory { get; private set; }
 
 
         /// <summary>
         /// 
         /// </summary>
-        void Awake()
+        protected virtual void Awake()
         {
-            _inventory = new Inventory(SlotCount);
-            _craftingStation = new CraftingStation("Inventory");
-            _equipment = new Equipment();
-            _vendor = new Vendor("Inventory");
+            Inventory = Create();
 
-            foreach (RecipeSO recipeSO in Recipes)
+            foreach (ItemSO itemSO in Items)
             {
-                IRecipe recipe = recipeSO.Create();
-                _craftingStation.Add(recipe);
+                IItem item = itemSO.Create();
+                Inventory.AddItem(item, 1);
             }
         }
 
 
-        public IInventory GetInventory() => _inventory;
-        public ICraftingStation GetCraftingStation() => _craftingStation;
-
-
         /// <summary>
         /// 
         /// </summary>
-        public void Access()
-        {
-            _craftingStation.Access(this);
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="recipe"></param>
-        /// <param name="amount"></param>
         /// <returns></returns>
-        public bool HasResources(IRecipe recipe, int amount)
-        {
-            foreach (IRequirement requirement in recipe)
-            {
-                if (!requirement.OK(this))
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="recipe"></param>
-        /// <param name="amount"></param>
-        public void UseResources(IRecipe recipe, int amount)
-        {
-            foreach (IRequirement requirement in recipe)
-                requirement.Use(this);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="craftable"></param>
-        /// <param name="amount"></param>
-        public void OnCrafted(ICraftable craftable, int amount)
-        {
-            if (!(craftable is IItem item))
-                return;
-
-            _inventory.AddItem(item, amount);
-        }
-
-
-        public bool CanBuy(IVendible vendible, int amount)
-        {
-            return true;
-        }
-
-        public void Buy(IVendible vendible, int amount)
-        {
-            if (!(vendible is IItem item))
-                return;
-
-            _inventory.AddItem(item, amount);
-        }
-
-        public void Sell(IVendible vendible, int amount)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected virtual IInventory Create() => new Inventory(SlotCount);
     }
 }

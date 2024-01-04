@@ -9,7 +9,7 @@ namespace WWWisky.inventory.unity.examples
     [CreateAssetMenu]
     public class Item_SwordSO : ItemSO
     {
-        [SerializeField] private float Cost;
+        [SerializeField] private int Cost;
 
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace WWWisky.inventory.unity.examples
     public class Item_Sword : Item, IUseable, IVendible, ICraftable
     {
         public bool IsExpendedOnUse { get; } = false;
-        public float Cost { get; }
+        public int Cost { get; }
 
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace WWWisky.inventory.unity.examples
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="cost"></param>
-        public Item_Sword(string id, string name, float cost) : base(id, name, ItemType.Equipment)
+        public Item_Sword(string id, string name, int cost) : base(id, name, ItemType.Equipment)
         {
             Cost = cost;
         }

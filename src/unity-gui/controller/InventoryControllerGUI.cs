@@ -60,14 +60,11 @@ namespace WWWisky.inventory.unity.gui
 
             if (e is Event_CraftingStationAccess craftingStationAccessEvent)
             {
-                if (craftingStationAccessEvent.Crafter is IItemHolder itemHolder)
-                {
-                    _actionMenu = ((MonoBehaviour)itemHolder).GetComponent<ActionMenuMono>();
-                    _actionMenu.SetTransferInventory(null);
-                    _slotSelector.SetActionMenu(_actionMenu);
+                //_actionMenu = ((MonoBehaviour)itemHolder).GetComponent<ActionMenuMono>();
+                //_actionMenu.SetTransferInventory(null);
+                //_slotSelector.SetActionMenu(_actionMenu);
 
-                    OpenInventoryGUI(itemHolder.GetInventory());
-                }
+                OpenInventoryGUI(craftingStationAccessEvent.Crafter.Inventory);
             }
         }
 

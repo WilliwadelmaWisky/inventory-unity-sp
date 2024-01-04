@@ -6,11 +6,8 @@ namespace WWWisky.inventory.unity.examples
     /// <summary>
     /// 
     /// </summary>
-    public class FurnaceMono : MonoBehaviour, ICrafter
+    public class FurnaceMono : CraftingStationMono
     {
-        [SerializeField] private RecipeSO[] Recipes;
-
-        private TieredCraftingStation _craftingStation;
         private CraftQueue _craftQueue;
         private Inventory _inventory;
         private BurnableSlot _fuelSlot;
@@ -20,17 +17,12 @@ namespace WWWisky.inventory.unity.examples
         /// <summary>
         /// 
         /// </summary>
-        void Awake()
+        protected override void Awake()
         {
-            _craftingStation = new TieredCraftingStation("Furnace");
+            base.Awake();
+
             _craftQueue = new CraftQueue(OnRecipeCrafted);
             _inventory = new Inventory();
-
-            foreach (RecipeSO recipeSO in Recipes)
-            {
-                IRecipe recipe = recipeSO.Create();
-                _craftingStation.Add(recipe);
-            }
 
             _fuelSlot = new BurnableSlot();
             _slotTicker = new SlotTicker();
@@ -47,6 +39,16 @@ namespace WWWisky.inventory.unity.examples
             double deltaTime = Time.deltaTime;
             _slotTicker.Tick(deltaTime, _fuelSlot);
             _craftQueue.Tick(deltaTime);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected override ICraftingStation Create()
+        {
+            return base.Create();
         }
 
 

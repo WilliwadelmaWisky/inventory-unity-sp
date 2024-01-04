@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -47,34 +46,26 @@ namespace WWWisky.inventory.core
 		/// 
 		/// </summary>
 		/// <param name="recipe"></param>
-		/// <returns></returns>
-		public bool Add(IRecipe recipe)
+		public void Add(IRecipe recipe)
         {
 			if (recipe == null || Contains(recipe))
-				return false;
+				return;
 
             _recipeList.Add(recipe);
 			_recipeIDSet.Add(recipe.ID);
-			return true;
         }
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="recipe"></param>
-		/// <returns></returns>
-		public bool Remove(IRecipe recipe)
+		public void Remove(IRecipe recipe)
         {
 			if (recipe == null || !Contains(recipe))
-				return false;
+				return;
 
-			if (_recipeList.Remove(recipe))
-			{
-				_recipeIDSet.Remove(recipe.ID);
-				return true;
-			}
-
-			return false;
+            _recipeList.Remove(recipe);
+            _recipeIDSet.Remove(recipe.ID);
         }
 		
 		
@@ -86,15 +77,10 @@ namespace WWWisky.inventory.core
 		/// <param name="crafter"></param>
 		public virtual void Craft(IRecipe recipe, int amount)
 		{
-			if (CurrentCrafter == null || !CurrentCrafter.HasResources(recipe, amount) || !Contains(recipe))
+			if (CurrentCrafter == null || !Contains(recipe))
 				return;
 
-            CurrentCrafter.UseResources(recipe, amount);
-            CraftResult result = recipe.Craft();
-            if (!result.Success)
-                return;
-
-            CurrentCrafter.OnCrafted(result.Craftable, result.Quantity);
+            CurrentCrafter.Craft(recipe, amount);
 		}
 
 

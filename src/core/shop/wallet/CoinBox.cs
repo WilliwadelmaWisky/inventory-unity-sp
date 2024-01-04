@@ -5,7 +5,7 @@ namespace WWWisky.inventory.core
     /// <summary>
     /// 
     /// </summary>
-    public class Wallet
+    public class CoinBox
     {
         private readonly Dictionary<Coin, int> _coinDictionary;
 
@@ -13,7 +13,7 @@ namespace WWWisky.inventory.core
         /// <summary>
         /// 
         /// </summary>
-        public Wallet()
+        public CoinBox()
         {
             _coinDictionary = new Dictionary<Coin, int>();
         }
@@ -23,7 +23,7 @@ namespace WWWisky.inventory.core
         /// 
         /// </summary>
         /// <returns></returns>
-        public int GetValue()
+        public float Value()
         {
             int totalValue = 0;
             _coinDictionary.Keys.ForEach(coin => totalValue += coin.Value);
@@ -44,6 +44,7 @@ namespace WWWisky.inventory.core
                 _coinDictionary.Add(coin, 0);
             _coinDictionary[coin]++;
         }
+
 
         /// <summary>
         /// 

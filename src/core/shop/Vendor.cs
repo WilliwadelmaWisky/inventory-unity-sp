@@ -58,19 +58,6 @@ namespace WWWisky.inventory.core
             CurrentCustomer.Buy(vendible, amount);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vendible"></param>
-        /// <param name="amount"></param>
-        public void Sell(IVendible vendible, int amount)
-        {
-            if (CurrentCustomer == null)
-                return;
-
-            CurrentCustomer.Sell(vendible, amount);
-        }
-
 
         /// <summary>
         /// 

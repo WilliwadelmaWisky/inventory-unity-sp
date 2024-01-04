@@ -9,6 +9,6 @@ namespace WWWisky.inventory.core
     {
         string ID { get; }
         string Name { get; }
-        float Cost { get; }
+        int Cost { get; }
     }
 }
