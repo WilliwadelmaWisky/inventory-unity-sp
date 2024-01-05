@@ -26,11 +26,16 @@
         /// <param name="vendible"></param>
         /// <param name="amount"></param>
         /// <returns></returns>
-        public bool CanBuy(IVendible vendible, int amount)
-        {
-            int totalCost = vendible.Cost * amount;
-            return Wallet.Value >= totalCost;
-        }
+        protected int GetTotalCost(IVendible vendible, int amount) => vendible.Cost * amount;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vendible"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        public bool CanBuy(IVendible vendible, int amount) => Wallet.Value >= GetTotalCost(vendible, amount);
 
 
         /// <summary>

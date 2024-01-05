@@ -9,21 +9,21 @@ namespace WWWisky.inventory.core
     public class Vendor : IVendor
     {
         public string Name { get; }
-        protected ICustomer CurrentCustomer { get; private set; }
+        public ICustomer Customer { get; private set; }
 
+        private readonly IInventory _inventory;
         private readonly List<IVendible> _vendibleList;
-        private readonly HashSet<string> _vendibleIDSet;
 
 
         /// <summary>
         /// 
         /// </summary>
-        public Vendor(string name)
+        public Vendor(string name, IInventory inventory)
         {
             Name = name;
-            CurrentCustomer = null;
+            _inventory = inventory;
             _vendibleList = new List<IVendible>();
-            _vendibleIDSet = new HashSet<string>();
+            Customer = null;
         }
 
 
@@ -35,13 +35,33 @@ namespace WWWisky.inventory.core
         /// 
         /// </summary>
         /// <param name="vendible"></param>
-        public void Add(IVendible vendible)
+        /// <returns></returns>
+        private int GetTotalAmount(IVendible vendible)
         {
-            if (_vendibleIDSet.Contains(vendible.ID))
-                return;
+            if (_inventory == null || !(vendible is IItem item))
+                return -1;
 
-            _vendibleList.Add(vendible);
-            _vendibleIDSet.Add(vendible.ID);
+            int totalAmount = 0;
+            foreach (ISlot slot in _inventory)
+            {
+                if (!slot.IsEmpty && slot.Item.IsEqual(item))
+                    totalAmount += slot.Amount;
+            }
+
+            return totalAmount;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vendible"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        private bool CanBuy(IVendible vendible, int amount)
+        {
+            int totalAmount = GetTotalAmount(vendible);
+            return totalAmount == -1 || totalAmount >= amount;
         }
 
 
@@ -52,10 +72,11 @@ namespace WWWisky.inventory.core
         /// <param name="amount"></param>
         public void Buy(IVendible vendible, int amount)
         {
-            if (CurrentCustomer == null || !CurrentCustomer.CanBuy(vendible, amount))
+            if (Customer == null || !CanBuy(vendible, amount) || !Customer.Buy(vendible, amount))
                 return;
 
-            CurrentCustomer.Buy(vendible, amount);
+            if (_inventory != null && vendible is IItem item)
+                _inventory.RemoveItem(item, amount);
         }
 
 
@@ -68,13 +89,21 @@ namespace WWWisky.inventory.core
             _vendibleList.Sort(comparer);
         }
 
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="customer"></param>
         public void Access(ICustomer customer)
         {
-            CurrentCustomer = customer;
+            Customer = customer;
+            _vendibleList.Clear();
+
+            foreach (ISlot slot in _inventory)
+            {
+                if (!slot.IsEmpty && slot.Item is IVendible vendible)
+                    _vendibleList.Add(vendible);
+            }
 
             Event_VendorAccess e = new Event_VendorAccess(this);
             EventSystem.Current.Broadcast(e);

@@ -28,7 +28,6 @@ namespace WWWisky.inventory.unity
 
             Current = this;
             _iconDictionary = new Dictionary<string, Sprite>();
-            DontDestroyOnLoad(gameObject);
         }
 
 

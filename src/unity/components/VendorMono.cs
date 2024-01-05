@@ -8,26 +8,28 @@ namespace WWWisky.inventory.unity
     /// </summary>
     public class VendorMono : MonoBehaviour
     {
-        [SerializeField] private string Name;
-        [SerializeField] private ItemSO[] Items;
+        [SerializeField] protected string Name;
 
-        private Vendor _vendor;
+        public IVendor Vendor { get; private set; }
+        private InventoryMono _inventoryMono;
 
 
         /// <summary>
         /// 
         /// </summary>
-        void Awake()
+        void Start()
         {
-            _vendor = new Vendor(Name);
-
-            foreach (ItemSO itemSO in Items)
-            {
-                IItem item = itemSO.Create();
-                if (item is IVendible vendible)
-                    _vendor.Add(vendible);
-            }
+            _inventoryMono = GetComponent<InventoryMono>();
+            Vendor = Create();
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inventory"></param>
+        /// <returns></returns>
+        protected virtual IVendor Create() => new Vendor(Name, _inventoryMono?.Inventory);
 
 
         /// <summary>
@@ -36,7 +38,7 @@ namespace WWWisky.inventory.unity
         /// <param name="customer"></param>
         public void Access(ICustomer customer)
         {
-            _vendor.Access(customer);
+            Vendor.Access(customer);
         }
     }
 }
